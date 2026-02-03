@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pfx="http://www.tibco.com/schemas/Exception_Interface_Tibco/Shared Resources/Data/Schema.xsd" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:pfx2="http://xmlns.tibco.com/body" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/file" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx1="http://www.tibco.com/namespaces/tnt/plugins/file/v2" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:ns2="http://schemas.tibco.com/bw/plugins/file/5.0/fileExceptions" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:ns3="http://www.tibco.com/namespaces/tnt/plugins/mail">
+    <xsd:import namespace="http://www.tibco.com/schemas/Exception_Interface_Tibco/Shared Resources/Data/Schema.xsd" schemaLocation="/Shared Resources/Data/Schemas/Error_Handling.xsd"/>
+    <pd:name>Sub Process/Error_Handling.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType ref="pfx:Error"/>
+    <pd:startX>170</pd:startX>
+    <pd:startY>110</pd:startY>
+    <pd:returnBindings/>
+    <pd:endName>End</pd:endName>
+    <pd:endX>611</pd:endX>
+    <pd:endY>110</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1755368736193</pd:targetNamespace>
+    <pd:activity name="Error_Mail">
+        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+        <pd:x>304</pd:x>
+        <pd:y>111</pd:y>
+        <config>
+            <element>
+                <xsd:element name="root">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="Webpage" type="xsd:string"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </element>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <Webpage>
+                    <xsl:value-of select="concat(&#xA;'&lt;!DOCTYPE html>',&#xA;'&lt;html lang=&quot;en&quot;>',&#xA;'  &lt;head>',&#xA;'    &lt;style>',&#xA;'      body { font-family: Arial, sans-serif; color: #333; background-color: #f9f9f9; }',&#xA;'      .email-container { background: white; }',&#xA;'      .header { border-bottom: 2px solid #e74c3c; }',&#xA;'      .header h1 { color: #e74c3c; font-size: 24px; }',&#xA;'      .error-table { width: fit-content; margin: 20px 0; }',&#xA;'      .error-table td { border: 1px solid #ddd; width: fit-content; }',&#xA;'      .error-table tr td:first-child { font-weight: bold; background-color: #f2f2f2; width: 40%; }',&#xA;'      .error-message { background-color: #f8d7da; color: #721c24; width: fit-content; margin: 20px 0; font-family: monospace; }',&#xA;'      .footer { font-size: 14px; color: #6c757d; text-align: left; }',&#xA;'    &lt;/style>',&#xA;'  &lt;/head>',&#xA;'  &lt;body>',&#xA;'    &lt;div class=&quot;email-container&quot;>',&#xA;'      &lt;div class=&quot;header&quot;>',&#xA;'        &lt;h1>Error Notification&lt;/h1>',&#xA;'      &lt;/div>',&#xA;'      &lt;div class=&quot;content&quot;>',&#xA;'        &lt;p>Hi All,&lt;/p>',&#xA;'        &lt;p>Please Find the Exception List Interface Error&lt;/p>',&#xA;'        &lt;table class=&quot;error-table&quot;>',&#xA;'          &lt;tr>&lt;td>Error Type&lt;/td>&lt;td>Technical&lt;/td>&lt;/tr>',&#xA;'          &lt;tr>&lt;td>Error Process&lt;/td>&lt;td>', $Start/pfx:Error/pfx:ProcessName ,'&lt;/td>&lt;/tr>',&#xA;'        &lt;/table>',&#xA;'        &lt;p>&lt;strong>Error Message/ Details&lt;/strong>&lt;/p>',&#xA;'        &lt;div class=&quot;error-message&quot;>', $Start/pfx:Error/pfx:ErrorMessage ,'&lt;/div>',&#xA;'      &lt;/div>',&#xA;'      &lt;div class=&quot;footer&quot;>TIBCO Support - Automated alert mail&lt;/div>',&#xA;'    &lt;/div>',&#xA;'  &lt;/body>',&#xA;'&lt;/html>'&#xA;)"/>
+                </Webpage>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Send Mail">
+        <pd:type>com.tibco.plugin.mail.MailPubActivity</pd:type>
+        <pd:resourceType>ae.activities.MailActivityResource</pd:resourceType>
+        <pd:x>458</pd:x>
+        <pd:y>109</pd:y>
+        <config>
+            <newMimeSupport>true</newMimeSupport>
+            <inputOutputVersion>5.2.0</inputOutputVersion>
+            <host>%%Mail/Host%%</host>
+            <authenticate>false</authenticate>
+            <nonRFC822>true</nonRFC822>
+            <authScheme>Basic Authentication</authScheme>
+            <username>rohitmyst05@gmail.com</username>
+            <password>%%Google/Password%%</password>
+            <InputHeaders>
+                <xsd:element name="root">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="Content-Type" type="xsd:string" minOccurs="0"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </InputHeaders>
+        </config>
+        <pd:inputBindings>
+            <ns3:mailActivityInput>
+                <from>
+                    <xsl:value-of select="$_globalVariables/ns1:GlobalVariables/Mail/From"/>
+                </from>
+                <to>
+                    <xsl:value-of select="$_globalVariables/ns1:GlobalVariables/Mail/To"/>
+                </to>
+                <subject>
+                    <xsl:value-of select="$_globalVariables/ns1:GlobalVariables/Mail/Error_Subject"/>
+                </subject>
+                <pfx2:bodyElement>
+                    <bodyText>
+                        <xsl:value-of select="$Error_Mail/root/Webpage"/>
+                    </bodyText>
+                </pfx2:bodyElement>
+                <Headers>
+                    <Content-Type>
+                        <xsl:value-of select="'text/html'"/>
+                    </Content-Type>
+                </Headers>
+            </ns3:mailActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>Error_Mail</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Error_Mail</pd:from>
+        <pd:to>Send Mail</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Send Mail</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

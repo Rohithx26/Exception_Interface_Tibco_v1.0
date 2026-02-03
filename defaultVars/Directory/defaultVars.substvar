@@ -1,0 +1,37 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<repository xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xmlns = "http://www.tibco.com/xmlns/repo/types/2002">
+	<globalVariables>
+		<globalVariable>
+			<name>Archive</name>
+			<value>F:\Exception\Archive\</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1769516338397</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>CSV_Wildcard</name>
+			<value>.csv</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1769321200192</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>Filename</name>
+			<value>Internal_Exception_</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1769321200192</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>Working</name>
+			<value>F:\Exception\Working\</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1769516338415</modTime>
+		</globalVariable>
+	</globalVariables>
+</repository>

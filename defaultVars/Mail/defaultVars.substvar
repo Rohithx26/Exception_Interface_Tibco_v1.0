@@ -1,0 +1,53 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<repository xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xmlns = "http://www.tibco.com/xmlns/repo/types/2002">
+	<globalVariables>
+		<globalVariable>
+			<name>CC</name>
+			<value></value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1769321200192</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>Error_Subject</name>
+			<value>Error Notification - Exception Interface</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1769321200192</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>From</name>
+			<value>TExcep_NPROD@coopervision.com</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1769321200192</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>Host</name>
+			<value>smtp.coopervision.com</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1769321200192</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>Subject</name>
+			<value>Weekly Exception File</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1769321200192</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>To</name>
+			<value>mibrahim@coopervision.com, gpalaniyappan@coopervision.com, kvelkumar@coopervision.com</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1769321200192</modTime>
+		</globalVariable>
+	</globalVariables>
+</repository>

@@ -1,0 +1,45 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<repository xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xmlns = "http://www.tibco.com/xmlns/repo/types/2002">
+	<globalVariables>
+		<globalVariable>
+			<name>ApplicationName_File</name>
+			<value>F:\Exception\Config_Files\ApplicationNames.xml</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1769516338310</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>CodeName_File</name>
+			<value>F:\Exception\Config_Files\CodeNames.xml</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1769516338334</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>Config_File_Dir</name>
+			<value>F:\Exception\Config_Files\*.*</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1769516338349</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>KEDBRef_File</name>
+			<value>F:\Exception\Config_Files\KEBDRef.xml</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1769516338365</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>Personnel_File</name>
+			<value>F:\Exception\Config_Files\Personnels.xml</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1769516338381</modTime>
+		</globalVariable>
+	</globalVariables>
+</repository>

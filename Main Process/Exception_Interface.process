@@ -1,0 +1,983 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns5="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:pfx="http://www.tibco.com/namespaces/tnt/plugins/file/v2" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/file" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://www.tibco.com/schemas/Exception_Interface_Tibco/Shared Resources/Data/Schema.xsd" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:ns2="http://schemas.tibco.com/bw/plugins/file/5.0/fileExceptions" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:ns4="http://www.tibco.com/pe/EngineTypes" xmlns:ns3="http://schemas.tibco.com/bw/plugins/http/5.0/httpExceptions">
+    <xsd:import namespace="http://www.tibco.com/schemas/Exception_Interface_Tibco/Shared Resources/Data/Schema.xsd" schemaLocation="/Shared Resources/Data/Schemas/Error_Handling.xsd"/>
+    <pd:name>Main Process/Exception_Interface.process</pd:name>
+    <pd:startName>HTTP Receiver</pd:startName>
+    <pd:startX>0</pd:startX>
+    <pd:startY>0</pd:startY>
+    <pd:returnBindings/>
+    <pd:starter name="HTTP Receiver">
+        <pd:type>com.tibco.plugin.http.HTTPEventSource</pd:type>
+        <pd:resourceType>httppalette.httpEventSource</pd:resourceType>
+        <pd:x>86</pd:x>
+        <pd:y>141</pd:y>
+        <config>
+            <outputMode>String</outputMode>
+            <defaultEncoding>ISO8859_1</defaultEncoding>
+            <inputOutputVersion>5.3.0</inputOutputVersion>
+            <newMimeSupport>true</newMimeSupport>
+            <sharedChannel>/Shared Resources/Connections/HTTP/HTTP Connection.sharedhttp</sharedChannel>
+            <customField>
+                <row>
+                    <attribute>application</attribute>
+                    <attributeType>string</attributeType>
+                    <attributeCard>repeating</attributeCard>
+                </row>
+                <row>
+                    <attribute>codeName</attribute>
+                    <attributeType>string</attributeType>
+                    <attributeCard>repeating</attributeCard>
+                </row>
+                <row>
+                    <attribute>datetime</attribute>
+                    <attributeType>string</attributeType>
+                    <attributeCard>repeating</attributeCard>
+                </row>
+                <row>
+                    <attribute>description</attribute>
+                    <attributeType>string</attributeType>
+                    <attributeCard>repeating</attributeCard>
+                </row>
+                <row>
+                    <attribute>closeNotes</attribute>
+                    <attributeType>string</attributeType>
+                    <attributeCard>repeating</attributeCard>
+                </row>
+                <row>
+                    <attribute>assigned</attribute>
+                    <attributeType>string</attributeType>
+                    <attributeCard>repeating</attributeCard>
+                </row>
+                <row>
+                    <attribute>count</attribute>
+                    <attributeType>string</attributeType>
+                    <attributeCard>repeating</attributeCard>
+                </row>
+                <row>
+                    <attribute>kedbReference</attribute>
+                    <attributeType>string</attributeType>
+                    <attributeCard>repeating</attributeCard>
+                </row>
+                <row>
+                    <attribute>kedbReferenceOthers</attribute>
+                    <attributeType>string</attributeType>
+                    <attributeCard>repeating</attributeCard>
+                </row>
+                <row>
+                    <attribute>comments</attribute>
+                    <attributeType>string</attributeType>
+                    <attributeCard>repeating</attributeCard>
+                </row>
+                <row>
+                    <attribute>requestType</attribute>
+                    <attributeType>string</attributeType>
+                    <attributeCard>repeating</attributeCard>
+                </row>
+            </customField>
+            <parsePostData>true</parsePostData>
+            <Headers>
+                <xsd:element name="root">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="Accept" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Accept-Charset" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Accept-Encoding" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Content-Type" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Content-Length" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Connection" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Cookie" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Pragma" type="xsd:string" minOccurs="0"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </Headers>
+        </config>
+        <pd:inputBindings/>
+    </pd:starter>
+    <pd:endName>End</pd:endName>
+    <pd:endX>1002</pd:endX>
+    <pd:endY>136</pd:endY>
+    <pd:errorSchemas>
+        <Schema0 ref="ns0:Error"/>
+    </pd:errorSchemas>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1752331323881</pd:targetNamespace>
+    <pd:group name="Group">
+        <pd:type>com.tibco.pe.core.LoopGroup</pd:type>
+        <pd:resourceType>ae.process.group</pd:resourceType>
+        <pd:x>171</pd:x>
+        <pd:y>1</pd:y>
+        <pd:width>433</pd:width>
+        <pd:height>257</pd:height>
+        <pd:collapsedWidth>57</pd:collapsedWidth>
+        <pd:collapsedHeight>70</pd:collapsedHeight>
+        <pd:groupVariables/>
+        <pd:joinToggle>inherit</pd:joinToggle>
+        <config>
+            <pd:groupType>simpleGroup</pd:groupType>
+            <pd:serializable>false</pd:serializable>
+        </config>
+        <pd:inputBindings/>
+        <pd:expanded>true</pd:expanded>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>UserData</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>Write CSV file</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>List Files</pd:from>
+            <pd:to>Write CSV file</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>UserData</pd:from>
+            <pd:to>Render User Data</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>Render User Data</pd:from>
+            <pd:to>Custom FileName</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>Custom FileName</pd:from>
+            <pd:to>List Files</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:activity name="List Files">
+            <pd:type>com.tibco.plugin.file.ListFilesActivity</pd:type>
+            <pd:resourceType>ae.activities.ListFilesActivity</pd:resourceType>
+            <pd:x>444</pd:x>
+            <pd:y>173</pd:y>
+            <config>
+                <mode>only-files</mode>
+            </config>
+            <pd:inputBindings>
+                <ns:ListFilesActivityConfig>
+                    <fileName>
+                        <xsl:value-of select="concat($_globalVariables/ns1:GlobalVariables/Directory/Working,$_globalVariables/ns1:GlobalVariables/Directory/Filename,'*',$_globalVariables/ns1:GlobalVariables/Directory/CSV_Wildcard)"/>
+                    </fileName>
+                </ns:ListFilesActivityConfig>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="Custom FileName">
+            <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+            <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+            <pd:x>360</pd:x>
+            <pd:y>68</pd:y>
+            <config>
+                <element>
+                    <xsd:element name="Custom_FileName">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="Filename" type="xsd:string"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                </element>
+            </config>
+            <pd:inputBindings>
+                <Custom_FileName>
+                    <Filename>
+                        <xsl:value-of select="concat(&#xA;  $_globalVariables/ns1:GlobalVariables/Directory/Working,$_globalVariables/ns1:GlobalVariables/Directory/Filename,&#xA;  tib:format-dateTime(&#xA;    'ddMMyyyy',&#xA;    tib:add-to-dateTime(&#xA;      current-dateTime(),&#xA;      0, 0,&#xA;      - ((number(tib:format-dateTime('u', current-dateTime())) + 3) mod 7),&#xA;      0, 0, 0&#xA;    )&#xA;  ),&#xA;$_globalVariables/ns1:GlobalVariables/Directory/CSV_Wildcard&#xA;)"/>
+                    </Filename>
+                </Custom_FileName>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="UserData">
+            <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+            <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+            <pd:x>223</pd:x>
+            <pd:y>64</pd:y>
+            <config>
+                <element>
+                    <xsd:element name="Parameters">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="application" type="xsd:string"/>
+                                <xsd:element name="codeName" type="xsd:string"/>
+                                <xsd:element name="date" type="xsd:string"/>
+                                <xsd:element name="time" type="xsd:string"/>
+                                <xsd:element name="description" type="xsd:string"/>
+                                <xsd:element name="closeNotes" type="xsd:string"/>
+                                <xsd:element name="assigned" type="xsd:string"/>
+                                <xsd:element name="count" type="xsd:string"/>
+                                <xsd:element name="kedbReference" type="xsd:string"/>
+                                <xsd:element name="comments" type="xsd:string" minOccurs="0"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                </element>
+            </config>
+            <pd:inputBindings>
+                <Parameters>
+                    <application>
+                        <xsl:value-of select="$HTTP-Receiver/ProcessStarterOutput/parameters/application[1]"/>
+                    </application>
+                    <codeName>
+                        <xsl:value-of select="$HTTP-Receiver/ProcessStarterOutput/parameters/codeName[1]"/>
+                    </codeName>
+                    <date>
+                        <xsl:value-of select="substring-before($HTTP-Receiver/ProcessStarterOutput/parameters/datetime[1], 'T')"/>
+                    </date>
+                    <time>
+                        <xsl:value-of select="substring-after($HTTP-Receiver/ProcessStarterOutput/parameters/datetime[1], 'T')"/>
+                    </time>
+                    <description>
+                        <xsl:value-of select="translate(if(contains($HTTP-Receiver/ProcessStarterOutput/parameters/description[1],'Hi All,'))&#xA;then&#xA;substring-after($HTTP-Receiver/ProcessStarterOutput/parameters/description[1],'Hi All,')&#xA;&#xA;else if(contains($HTTP-Receiver/ProcessStarterOutput/parameters/description[1],'All,'))&#xA;then&#xA;substring-after($HTTP-Receiver/ProcessStarterOutput/parameters/description[1],'All,')&#xA;&#xA;else&#xA;$HTTP-Receiver/ProcessStarterOutput/parameters/description[1], ',', ' ')"/>
+                    </description>
+                    <closeNotes>
+                        <xsl:value-of select="$HTTP-Receiver/ProcessStarterOutput/parameters/closeNotes[1]"/>
+                    </closeNotes>
+                    <assigned>
+                        <xsl:value-of select="$HTTP-Receiver/ProcessStarterOutput/parameters/assigned[1]"/>
+                    </assigned>
+                    <count>
+                        <xsl:value-of select="$HTTP-Receiver/ProcessStarterOutput/parameters/count[1]"/>
+                    </count>
+                    <kedbReference>
+                        <xsl:value-of select="$HTTP-Receiver/ProcessStarterOutput/parameters/kedbReference[1]"/>
+                    </kedbReference>
+                    <xsl:if test="$HTTP-Receiver/ProcessStarterOutput/parameters/comments[1]">
+                        <comments>
+                            <xsl:value-of select="$HTTP-Receiver/ProcessStarterOutput/parameters/comments[1]"/>
+                        </comments>
+                    </xsl:if>
+                </Parameters>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="Render User Data">
+            <pd:type>com.tibco.plugin.parse.RenderActivity</pd:type>
+            <pd:resourceType>ae.activities.RenderActivity</pd:resourceType>
+            <pd:x>285</pd:x>
+            <pd:y>182</pd:y>
+            <config>
+                <ParseSharedConfig>/Shared Resources/Data/DataFormat/User_Input_Data.sharedparse</ParseSharedConfig>
+            </config>
+            <pd:inputBindings>
+                <Rows>
+                    <User_Input>
+                        <application>
+                            <xsl:value-of select="normalize-space($UserData/Parameters/application)"/>
+                        </application>
+                        <codeName>
+                            <xsl:value-of select="normalize-space($UserData/Parameters/codeName)"/>
+                        </codeName>
+                        <date>
+                            <xsl:value-of select="$UserData/Parameters/date"/>
+                        </date>
+                        <time>
+                            <xsl:value-of select="$UserData/Parameters/time"/>
+                        </time>
+                        <description>
+                            <xsl:value-of select="normalize-space(string($UserData/Parameters/description))"/>
+                        </description>
+                        <closeNotes>
+                            <xsl:value-of select="normalize-space(string($UserData/Parameters/closeNotes))"/>
+                        </closeNotes>
+                        <assigned>
+                            <xsl:value-of select="normalize-space($UserData/Parameters/assigned)"/>
+                        </assigned>
+                        <count>
+                            <xsl:value-of select="$UserData/Parameters/count"/>
+                        </count>
+                        <kedbReference>
+                            <xsl:value-of select="normalize-space($UserData/Parameters/kedbReference)"/>
+                        </kedbReference>
+                        <comments>
+                            <xsl:value-of select="normalize-space($UserData/Parameters/comments)"/>
+                        </comments>
+                    </User_Input>
+                </Rows>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="Write CSV file">
+            <pd:type>com.tibco.plugin.file.FileWriteActivity</pd:type>
+            <pd:resourceType>ae.activities.FileWriteActivity</pd:resourceType>
+            <pd:description>This will write the CSV file for the current week, which will be used until
+the next week's cycle.</pd:description>
+            <pd:x>508</pd:x>
+            <pd:y>68</pd:y>
+            <config>
+                <encoding>text</encoding>
+                <compressFile>None</compressFile>
+                <append>true</append>
+            </config>
+            <pd:inputBindings>
+                <ns:WriteActivityInputTextClass>
+                    <fileName>
+                        <xsl:value-of select="$Custom-FileName/Custom_FileName/Filename"/>
+                    </fileName>
+                    <textContent>
+                        <xsl:value-of select="if ($List-Files/ns:ListFilesActivityOutput/files/fileInfo[&#xA;     fullName = $Custom-FileName/Custom_FileName/Filename&#xA;  ]&#xA;)&#xA;then&#xA;  $Render-User-Data/Text&#xA;else&#xA;  concat(&#xA;    'Application',',','CodeName',',','Date',',','Time',',','Description',',',&#xA;    'Close Notes',',','Assigned',',','Count',',','KEDB Reference',',','Comments',&quot;&#xA;&quot;,&#xA;    $Render-User-Data/Text&#xA;  )"/>
+                    </textContent>
+                </ns:WriteActivityInputTextClass>
+            </pd:inputBindings>
+        </pd:activity>
+    </pd:group>
+    <pd:activity name="ApplicationNames">
+        <pd:type>com.tibco.pe.core.GetSharedVariableActivity</pd:type>
+        <pd:resourceType>ae.activities.getSharedVariable</pd:resourceType>
+        <pd:x>194</pd:x>
+        <pd:y>330</pd:y>
+        <config>
+            <variableConfig>/Shared Resources/Variables/ApplicationNames.sharedvariable</variableConfig>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:activity name="Catch-1">
+        <pd:type>com.tibco.pe.core.CatchActivity</pd:type>
+        <pd:resourceType>ae.activities.catch</pd:resourceType>
+        <pd:x>531</pd:x>
+        <pd:y>496</pd:y>
+        <pd:handler>true</pd:handler>
+        <config>
+            <catchAll>true</catchAll>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:activity name="CodeNames">
+        <pd:type>com.tibco.pe.core.GetSharedVariableActivity</pd:type>
+        <pd:resourceType>ae.activities.getSharedVariable</pd:resourceType>
+        <pd:x>87</pd:x>
+        <pd:y>328</pd:y>
+        <config>
+            <variableConfig>/Shared Resources/Variables/CodeNames.sharedvariable</variableConfig>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:activity name="Error_Mail-1">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>782</pd:x>
+        <pd:y>496</pd:y>
+        <config>
+            <processName>/Sub Process/Error_Handling.process</processName>
+        </config>
+        <pd:inputBindings>
+            <xsl:choose>
+                <xsl:when test="$_error_Render-User-Data/BadDataFormatException">
+                    <ns0:Error>
+                        <ns0:ErrorCode>
+                            <xsl:value-of select="$_error_Render-User-Data/BadDataFormatException/msgCode"/>
+                        </ns0:ErrorCode>
+                        <ns0:ErrorMessage>
+                            <xsl:value-of select="concat('Couldnt render data', &quot;&#xA;&quot;,$_error_Render-User-Data/BadDataFormatException/msg)"/>
+                        </ns0:ErrorMessage>
+                        <ns0:ProcessName>
+                            <xsl:value-of select="'Render User Data'"/>
+                        </ns0:ProcessName>
+                    </ns0:Error>
+                </xsl:when>
+                <xsl:when test="$_error_List-Files/ns2:FileNotFoundException">
+                    <ns0:Error>
+                        <ns0:ErrorCode>
+                            <xsl:value-of select="$_error_List-Files/ns2:FileNotFoundException/msgCode"/>
+                        </ns0:ErrorCode>
+                        <ns0:ErrorMessage>
+                            <xsl:value-of select="concat('Couldnt find the file',$_error_List-Files/ns2:FileNotFoundException/fileName)"/>
+                        </ns0:ErrorMessage>
+                        <ns0:ProcessName>
+                            <xsl:value-of select="'List Files'"/>
+                        </ns0:ProcessName>
+                    </ns0:Error>
+                </xsl:when>
+                <xsl:when test="$_error_Write-CSV-file/ActivityErrors/ns2:FileNotFoundException">
+                    <ns0:Error>
+                        <ns0:ErrorCode>
+                            <xsl:value-of select="$_error_Write-CSV-file/ActivityErrors/ns2:FileNotFoundException/msgCode"/>
+                        </ns0:ErrorCode>
+                        <ns0:ErrorMessage>
+                            <xsl:value-of select="concat('File not found','Filename:',$_error_Write-CSV-file/ActivityErrors/ns2:FileNotFoundException/fileName)"/>
+                        </ns0:ErrorMessage>
+                        <ns0:ProcessName>
+                            <xsl:value-of select="'Write CSV File'"/>
+                        </ns0:ProcessName>
+                    </ns0:Error>
+                </xsl:when>
+                <xsl:when test="$_error_Success_Page/ns3:HttpCommunicationException">
+                    <ns0:Error>
+                        <ns0:ErrorCode>
+                            <xsl:value-of select="$_error_Success_Page/ns3:HttpCommunicationException/msgCode"/>
+                        </ns0:ErrorCode>
+                        <ns0:ErrorMessage>
+                            <xsl:value-of select="'Error in Showing Success Response Webpage'"/>
+                        </ns0:ErrorMessage>
+                        <ns0:ProcessName>
+                            <xsl:value-of select="'Send Success HTTP Response'"/>
+                        </ns0:ProcessName>
+                    </ns0:Error>
+                </xsl:when>
+                <xsl:when test="$_error_Landing-Page/ns3:HttpCommunicationException">
+                    <ns0:Error>
+                        <ns0:ErrorCode>
+                            <xsl:value-of select="$_error_Landing-Page/ns3:HttpCommunicationException/msgCode"/>
+                        </ns0:ErrorCode>
+                        <ns0:ErrorMessage>
+                            <xsl:value-of select="'Error In Initial Landing Webpage'"/>
+                        </ns0:ErrorMessage>
+                        <ns0:ProcessName>
+                            <xsl:value-of select="'Landing Webpage'"/>
+                        </ns0:ProcessName>
+                    </ns0:Error>
+                </xsl:when>
+                <xsl:when test="$_error_Generate-Error/ns0:Error">
+                    <ns0:Error>
+                        <ns0:ErrorCode>
+                            <xsl:value-of select="$_error_Generate-Error/ns0:Error/ns0:ErrorCode"/>
+                        </ns0:ErrorCode>
+                        <ns0:ErrorMessage>
+                            <xsl:value-of select="$_error_Generate-Error/ns0:Error/ns0:ErrorMessage"/>
+                        </ns0:ErrorMessage>
+                        <ns0:ProcessName>
+                            <xsl:value-of select="$_error_Generate-Error/ns0:Error/ns0:ProcessName"/>
+                        </ns0:ProcessName>
+                    </ns0:Error>
+                </xsl:when>
+                <xsl:when test="$_error_Generate-Error-1/ns0:Error">
+                    <ns0:Error>
+                        <ns0:ErrorCode>
+                            <xsl:value-of select="$_error_Generate-Error-1/ns0:Error/ns0:ErrorCode"/>
+                        </ns0:ErrorCode>
+                        <ns0:ErrorMessage>
+                            <xsl:value-of select="$_error_Generate-Error-1/ns0:Error/ns0:ErrorMessage"/>
+                        </ns0:ErrorMessage>
+                        <ns0:ProcessName>
+                            <xsl:value-of select="$_error_Generate-Error-1/ns0:Error/ns0:ProcessName"/>
+                        </ns0:ProcessName>
+                    </ns0:Error>
+                </xsl:when>
+                <xsl:when test="$_error_Generate-Error-2/ns0:Error">
+                    <ns0:Error>
+                        <ns0:ErrorCode>
+                            <xsl:value-of select="$_error_Generate-Error-2/ns0:Error/ns0:ErrorCode"/>
+                        </ns0:ErrorCode>
+                        <ns0:ErrorMessage>
+                            <xsl:value-of select="$_error_Generate-Error-2/ns0:Error/ns0:ErrorMessage"/>
+                        </ns0:ErrorMessage>
+                        <ns0:ProcessName>
+                            <xsl:value-of select="$_error_Generate-Error-2/ns0:Error/ns0:ProcessName"/>
+                        </ns0:ProcessName>
+                    </ns0:Error>
+                </xsl:when>
+                <xsl:when test="$_error_Generate-Error-3/ns0:Error">
+                    <ns0:Error>
+                        <ns0:ErrorCode>
+                            <xsl:value-of select="$_error_Generate-Error-3/ns0:Error/ns0:ErrorCode"/>
+                        </ns0:ErrorCode>
+                        <ns0:ErrorMessage>
+                            <xsl:value-of select="$_error_Generate-Error-3/ns0:Error/ns0:ErrorMessage"/>
+                        </ns0:ErrorMessage>
+                        <ns0:ProcessName>
+                            <xsl:value-of select="$_error_Generate-Error-3/ns0:Error/ns0:ProcessName"/>
+                        </ns0:ProcessName>
+                    </ns0:Error>
+                </xsl:when>
+                <xsl:otherwise>
+                    <ns0:Error>
+                        <ns0:ErrorCode>
+                            <xsl:value-of select="'TExcep-1001'"/>
+                        </ns0:ErrorCode>
+                        <ns0:ErrorMessage>
+                            <xsl:value-of select="'Technical Interface Error'"/>
+                        </ns0:ErrorMessage>
+                        <ns0:ProcessName>
+                            <xsl:value-of select="'Exception Interface'"/>
+                        </ns0:ProcessName>
+                    </ns0:Error>
+                </xsl:otherwise>
+            </xsl:choose>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Error_Page">
+        <pd:type>com.tibco.plugin.http.HTTPResponseActivity</pd:type>
+        <pd:resourceType>httppalette.httpWebResponse</pd:resourceType>
+        <pd:x>651</pd:x>
+        <pd:y>498</pd:y>
+        <config>
+            <closeConnection>true</closeConnection>
+            <eventSource>HTTP Receiver</eventSource>
+            <Headers>
+                <xsd:element name="root">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="StatusLine" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Content-Type" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Set-Cookie" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Pragma" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Location" type="xsd:string" minOccurs="0"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </Headers>
+        </config>
+        <pd:inputBindings>
+            <ResponseActivityInput>
+                <asciiContent>
+                    <xsl:value-of select="concat(&#xA;&#xA;'&lt;!DOCTYPE html>&lt;html lang=&quot;en&quot;>&lt;head>&lt;meta charset=&quot;UTF-8&quot; />',&#xA;&#xA;'&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; />',&#xA;&#xA;'&lt;title>Submission Error&lt;/title>',&#xA;&#xA;'&lt;style>*{margin:0;padding:0;box-sizing:border-box;}',&#xA;&#xA;'body{font-family:&quot;Segoe UI&quot;,Tahoma,Geneva,Verdana,sans-serif;background:linear-gradient(135deg,#f5f7fa 0%,#e4edf5 100%);color:#333;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;line-height:1.6;}',&#xA;&#xA;'.container{background:rgba(255,255,255,0.95);border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,0.08);width:95%;max-width:500px;padding:40px 35px;text-align:center;border:1px solid rgba(255,255,255,0.5);position:relative;overflow:hidden;}',&#xA;&#xA;'.container::before{content:&quot;&quot;;position:absolute;top:0;left:0;width:100%;height:5px;background:linear-gradient(90deg,#ff7b00,#ffaa00);}',&#xA;&#xA;'.error-icon{margin-bottom:20px;}',&#xA;&#xA;'h1{font-size:28px;color:#2c3e50;margin-bottom:15px;font-weight:600;}',&#xA;&#xA;'p{color:#5a6c7d;margin-bottom:25px;font-size:16px;}',&#xA;&#xA;'.email-info{background:#f8f9fa;border-radius:10px;padding:15px;margin:25px 0;border-left:4px solid #ff7b00;}',&#xA;&#xA;'.email-info p{margin-bottom:10px;font-size:15px;}',&#xA;&#xA;'.email-address{font-weight:600;color:#2c3e50;font-size:16px;}',&#xA;&#xA;'.btn{display:inline-block;background:linear-gradient(135deg,#ff7b00,#ffaa00);color:white;border:none;padding:14px 30px;border-radius:50px;font-size:16px;font-weight:600;cursor:pointer;transition:all 0.3s ease;box-shadow:0 4px 15px rgba(255,123,0,0.3);text-decoration:none;margin-top:10px;}',&#xA;&#xA;'.btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(255,123,0,0.4);}',&#xA;&#xA;'.btn:active{transform:translateY(0);}',&#xA;&#xA;'@media(max-width:480px){.container{padding:30px 20px;}h1{font-size:24px;}.error-icon svg{width:54px;height:54px;}}',&#xA;&#xA;'&lt;/style>&lt;/head>&lt;body>',&#xA;&#xA;'&lt;div class=&quot;container&quot;>',&#xA;&#xA;'&lt;div class=&quot;error-icon&quot;>',&#xA;&#xA;'&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; fill=&quot;#ff7b00&quot; viewBox=&quot;0 0 512 512&quot; width=&quot;64&quot; height=&quot;64&quot;>',&#xA;&#xA;'&lt;path d=&quot;M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-384c13.3 0 24 10.7 24 24v112c0 13.3-10.7 24-24 24s-24-10.7-24-24V152c0-13.3 10.7-24 24-24zm0 256a32 32 0 1 1 0-64 32 32 0 1 1 0 64z&quot;/>',&#xA;&#xA;'&lt;/svg>',&#xA;&#xA;'&lt;/div>',&#xA;&#xA;'&lt;h1>Submission Error&lt;/h1>',&#xA;&#xA;'&lt;p>The exception data failed to submit. Please try again or contact support if the issue persists.&lt;/p>',&#xA;&#xA;'&lt;div class=&quot;email-info&quot;>&lt;p>Error details have been sent:&lt;/p>',&#xA;&#xA;'&lt;p class=&quot;email-address&quot;>TExcep_NPROD@coopervision.com&lt;/p>&lt;p>Please check your email for more information.&lt;/p>&lt;/div>',&#xA;&#xA;'&lt;a href=&quot;http:\\localhost:8035&quot; class=&quot;btn&quot;>&amp;#8592; Return to Dashboard&lt;/a>',&#xA; &#xA;'&lt;/div>&lt;/body>&lt;/html>'&#xA; &#xA;)"/>
+                </asciiContent>
+            </ResponseActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Generate Error">
+        <pd:type>com.tibco.pe.core.GenerateErrorActivity</pd:type>
+        <pd:resourceType>ae.activities.throw</pd:resourceType>
+        <pd:x>56</pd:x>
+        <pd:y>437</pd:y>
+        <config>
+            <faultName>Schema0</faultName>
+        </config>
+        <pd:inputBindings>
+            <ns5:ActivityInput>
+                <data>
+                    <ns0:Error>
+                        <ns0:ErrorCode>
+                            <xsl:value-of select="$_error/ns4:ErrorReport/MsgCode"/>
+                        </ns0:ErrorCode>
+                        <ns0:ErrorMessage>
+                            <xsl:value-of select="$_error/ns4:ErrorReport/Msg"/>
+                        </ns0:ErrorMessage>
+                        <ns0:ProcessName>
+                            <xsl:value-of select="$_error/ns4:ErrorReport/ProcessStack"/>
+                        </ns0:ProcessName>
+                    </ns0:Error>
+                </data>
+            </ns5:ActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Generate-Error-1">
+        <pd:type>com.tibco.pe.core.GenerateErrorActivity</pd:type>
+        <pd:resourceType>ae.activities.throw</pd:resourceType>
+        <pd:x>164</pd:x>
+        <pd:y>438</pd:y>
+        <config>
+            <faultName>Schema0</faultName>
+        </config>
+        <pd:inputBindings>
+            <ns5:ActivityInput>
+                <data>
+                    <ns0:Error>
+                        <ns0:ErrorCode>
+                            <xsl:value-of select="$_error/ns4:ErrorReport/MsgCode"/>
+                        </ns0:ErrorCode>
+                        <ns0:ErrorMessage>
+                            <xsl:value-of select="$_error/ns4:ErrorReport/Msg"/>
+                        </ns0:ErrorMessage>
+                        <ns0:ProcessName>
+                            <xsl:value-of select="$_error/ns4:ErrorReport/ProcessStack"/>
+                        </ns0:ProcessName>
+                    </ns0:Error>
+                </data>
+            </ns5:ActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Generate-Error-2">
+        <pd:type>com.tibco.pe.core.GenerateErrorActivity</pd:type>
+        <pd:resourceType>ae.activities.throw</pd:resourceType>
+        <pd:x>275</pd:x>
+        <pd:y>437</pd:y>
+        <config>
+            <faultName>Schema0</faultName>
+        </config>
+        <pd:inputBindings>
+            <ns5:ActivityInput>
+                <data>
+                    <ns0:Error>
+                        <ns0:ErrorCode>
+                            <xsl:value-of select="$_error/ns4:ErrorReport/MsgCode"/>
+                        </ns0:ErrorCode>
+                        <ns0:ErrorMessage>
+                            <xsl:value-of select="'Unable to Load CodeNames'"/>
+                        </ns0:ErrorMessage>
+                        <ns0:ProcessName>
+                            <xsl:value-of select="'GET CodeNames Variable'"/>
+                        </ns0:ProcessName>
+                    </ns0:Error>
+                </data>
+            </ns5:ActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Generate-Error-3">
+        <pd:type>com.tibco.pe.core.GenerateErrorActivity</pd:type>
+        <pd:resourceType>ae.activities.throw</pd:resourceType>
+        <pd:x>396</pd:x>
+        <pd:y>436</pd:y>
+        <config>
+            <faultName>Schema0</faultName>
+        </config>
+        <pd:inputBindings>
+            <ns5:ActivityInput>
+                <data>
+                    <ns0:Error>
+                        <ns0:ErrorCode>
+                            <xsl:value-of select="$_error/ns4:ErrorReport/MsgCode"/>
+                        </ns0:ErrorCode>
+                        <ns0:ErrorMessage>
+                            <xsl:value-of select="$_error/ns4:ErrorReport/Msg"/>
+                        </ns0:ErrorMessage>
+                        <ns0:ProcessName>
+                            <xsl:value-of select="'GET KEDB Variables'"/>
+                        </ns0:ProcessName>
+                    </ns0:Error>
+                </data>
+            </ns5:ActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Review_Page">
+        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+        <pd:x>223</pd:x>
+        <pd:y>230</pd:y>
+        <config>
+            <element>
+                <xsd:element name="root">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="html_content" type="xsd:string"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </element>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <html_content>
+                    <xsl:value-of select="concat(&#xA;'&lt;!DOCTYPE html>&lt;html lang=&quot;en&quot;>&lt;head>&lt;meta charset=&quot;UTF-8&quot; />&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; />&lt;title>Review Submission&lt;/title>',&#xA;'&lt;link href=&quot;https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap&quot; rel=&quot;stylesheet&quot; />',&#xA;'&lt;style>',&#xA;'  :root { --bg-color: #030712; --card-bg: #111827; --border-color: #1f2937; --text-primary: #f9fafb; --text-secondary: #9ca3af; --accent: #38bdf8; }',&#xA;'  body { font-family: &quot;Inter&quot;, sans-serif; background-color: var(--bg-color); color: var(--text-primary); margin: 0; padding: 40px 20px; display: flex; justify-content: center; min-height: 100vh; box-sizing: border-box; }',&#xA;'  .container { width: 100%; max-width: 600px; animation: fadeIn 0.5s ease-out; }',&#xA;'  h1 { font-size: 3rem; font-weight: 800; margin: 0 0 10px 0; letter-spacing: -0.02em; line-height: 1.1; }',&#xA;'  p.subtitle { color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 40px; line-height: 1.5; max-width: 480px; }',&#xA;'  .data-grid { display: flex; flex-direction: column; gap: 12px; }',&#xA;'  .data-item { background: transparent; border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; display: flex; flex-direction: column; transition: border-color 0.2s; }',&#xA;'  .data-item:hover { border-color: #374151; }',&#xA;'  .label { color: var(--text-secondary); font-size: 0.85rem; font-weight: 500; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em; }',&#xA;'  .value { color: var(--text-primary); font-size: 1.1rem; font-weight: 500; white-space: pre-wrap; word-break: break-word; }',&#xA;'  .actions { margin-top: 40px; display: flex; gap: 15px; }',&#xA;'  button { flex: 1; padding: 16px; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.2s; border: 1px solid transparent; }',&#xA;'  .btn-confirm { background: var(--text-primary); color: var(--bg-color); }',&#xA;'  .btn-confirm:hover { background: #e5e7eb; transform: translateY(-1px); }',&#xA;'  .btn-edit { background: transparent; color: var(--text-secondary); border-color: var(--border-color); }',&#xA;'  .btn-edit:hover { border-color: var(--text-primary); color: var(--text-primary); }',&#xA;'  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }',&#xA;'&lt;/style>&lt;/head>',&#xA;'&lt;body>',&#xA;'  &lt;div class=&quot;container&quot;>',&#xA;'    &lt;h1>Review data&lt;/h1>',&#xA;'    &lt;p class=&quot;subtitle&quot;>Everything looks good? Confirm your details below to finalize the submission.&lt;/p>',&#xA;'    &lt;form action=&quot;/Success.html&quot; method=&quot;POST&quot;>',&#xA;&#xA;'      &lt;!-- Hidden Fields --&gt;',&#xA;'      &lt;input type=&quot;hidden&quot; name=&quot;requestType&quot; value=&quot;SAVE&quot;/>',&#xA;'      &lt;input type=&quot;hidden&quot; name=&quot;application&quot; value=&quot;',$HTTP-Receiver/ProcessStarterOutput/parameters/application[1],'&quot;/>',&#xA;'      &lt;input type=&quot;hidden&quot; name=&quot;codeName&quot; value=&quot;',$HTTP-Receiver/ProcessStarterOutput/parameters/codeName[1],'&quot;/>',&#xA;'      &lt;input type=&quot;hidden&quot; name=&quot;datetime&quot; value=&quot;',$HTTP-Receiver/ProcessStarterOutput/parameters/datetime[1],'&quot;/>',&#xA;'      &lt;input type=&quot;hidden&quot; name=&quot;description&quot; value=&quot;',translate($HTTP-Receiver/ProcessStarterOutput/parameters/description[1], '&quot;', &quot;'&quot;),'&quot;/>',&#xA;'      &lt;input type=&quot;hidden&quot; name=&quot;closeNotes&quot; value=&quot;',$HTTP-Receiver/ProcessStarterOutput/parameters/closeNotes[1],'&quot;/>',&#xA;'      &lt;input type=&quot;hidden&quot; name=&quot;assigned&quot; value=&quot;',$HTTP-Receiver/ProcessStarterOutput/parameters/assigned[1],'&quot;/>',&#xA;'      &lt;input type=&quot;hidden&quot; name=&quot;count&quot; value=&quot;',$HTTP-Receiver/ProcessStarterOutput/parameters/count[1],'&quot;/>',&#xA;'      &lt;input type=&quot;hidden&quot; name=&quot;kedbReference&quot; value=&quot;',$HTTP-Receiver/ProcessStarterOutput/parameters/kedbReference[1],'&quot;/>',&#xA;'      &lt;input type=&quot;hidden&quot; name=&quot;comments&quot; value=&quot;',translate($HTTP-Receiver/ProcessStarterOutput/parameters/comments[1], '&quot;', &quot;'&quot;),'&quot;/>',&#xA;&#xA;'      &lt;div class=&quot;data-grid&quot;>',&#xA;'        &lt;div class=&quot;data-item&quot;>&lt;span class=&quot;label&quot;>Application&lt;/span>&lt;span class=&quot;value&quot;>',$HTTP-Receiver/ProcessStarterOutput/parameters/application[1],'&lt;/span>&lt;/div>',&#xA;'        &lt;div class=&quot;data-item&quot;>&lt;span class=&quot;label&quot;>Code Name&lt;/span>&lt;span class=&quot;value&quot;>',$HTTP-Receiver/ProcessStarterOutput/parameters/codeName[1],'&lt;/span>&lt;/div>',&#xA;'        &lt;div class=&quot;data-item&quot;>&lt;span class=&quot;label&quot;>Date &amp; Time&lt;/span>&lt;span class=&quot;value&quot;>',$HTTP-Receiver/ProcessStarterOutput/parameters/datetime[1],'&lt;/span>&lt;/div>',&#xA;'        &lt;div class=&quot;data-item&quot;>&lt;span class=&quot;label&quot;>Description&lt;/span>&lt;span class=&quot;value&quot;>',$HTTP-Receiver/ProcessStarterOutput/parameters/description[1],'&lt;/span>&lt;/div>',&#xA;'        &lt;div class=&quot;data-item&quot;>&lt;span class=&quot;label&quot;>Close Notes&lt;/span>&lt;span class=&quot;value&quot;>',$HTTP-Receiver/ProcessStarterOutput/parameters/closeNotes[1],'&lt;/span>&lt;/div>',&#xA;'        &lt;div class=&quot;data-item&quot;>&lt;span class=&quot;label&quot;>Assigned To&lt;/span>&lt;span class=&quot;value&quot;>',$HTTP-Receiver/ProcessStarterOutput/parameters/assigned[1],'&lt;/span>&lt;/div>',&#xA;'        &lt;div class=&quot;data-item&quot;>&lt;span class=&quot;label&quot;>Count&lt;/span>&lt;span class=&quot;value&quot;>',$HTTP-Receiver/ProcessStarterOutput/parameters/count[1],'&lt;/span>&lt;/div>',&#xA;'        &lt;div class=&quot;data-item&quot;>&lt;span class=&quot;label&quot;>KEDB Reference&lt;/span>&lt;span class=&quot;value&quot;>',$HTTP-Receiver/ProcessStarterOutput/parameters/kedbReference[1],'&lt;/span>&lt;/div>',&#xA;'        &lt;div class=&quot;data-item&quot;>&lt;span class=&quot;label&quot;>Comments&lt;/span>&lt;span class=&quot;value&quot;>',$HTTP-Receiver/ProcessStarterOutput/parameters/comments[1],'&lt;/span>&lt;/div>',&#xA;'      &lt;/div>',&#xA;&#xA;'      &lt;div class=&quot;actions&quot;>',&#xA;'        &lt;button type=&quot;button&quot; onclick=&quot;history.back()&quot; class=&quot;btn-edit&quot;>Edit Details&lt;/button>',&#xA;'        &lt;button type=&quot;submit&quot; class=&quot;btn-confirm&quot;>Confirm Submission&lt;/button>',&#xA;'      &lt;/div>',&#xA;'    &lt;/form>',&#xA;'  &lt;/div>',&#xA;'&lt;/body>&lt;/html>')"/>
+                </html_content>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Return_Review_Page">
+        <pd:type>com.tibco.plugin.http.HTTPResponseActivity</pd:type>
+        <pd:resourceType>httppalette.httpWebResponse</pd:resourceType>
+        <pd:x>340</pd:x>
+        <pd:y>230</pd:y>
+        <config>
+            <closeConnection>true</closeConnection>
+            <eventSource>HTTP Receiver</eventSource>
+            <Headers>
+                <xsd:element name="root">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="StatusLine" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Content-Type" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Set-Cookie" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Pragma" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Location" type="xsd:string" minOccurs="0"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </Headers>
+        </config>
+        <pd:inputBindings>
+            <ResponseActivityInput>
+                <asciiContent>
+                    <xsl:value-of select="$Review_Page/root/html_content"/>
+                </asciiContent>
+            </ResponseActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Intial Webpage content">
+        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+        <pd:x>576</pd:x>
+        <pd:y>338</pd:y>
+        <config>
+            <element>
+                <xsd:element name="root">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="param" type="xsd:string"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </element>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <param>
+                    <xsl:value-of select="concat(&#xA;'&lt;!DOCTYPE html>',&#xA;'&lt;html lang=&quot;en&quot;>',&#xA;'  &lt;head>',&#xA;'    &lt;meta charset=&quot;UTF-8&quot; />',&#xA;'    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; />',&#xA;'    &lt;title>Exception Interface&lt;/title>',&#xA;'    &lt;style>',&#xA;'      body {',&#xA;'        font-family: &quot;Segoe UI&quot;, Arial, sans-serif;',&#xA;'        background: linear-gradient(120deg, #e9ecef 0%, #f5f6fa 100%);',&#xA;'        margin: 0;',&#xA;'        padding: 20px;',&#xA;'        display: flex;',&#xA;'        justify-content: center;',&#xA;'        align-items: center;',&#xA;'        min-height: 100vh;',&#xA;'      }',&#xA;'      .container {',&#xA;'        background: rgba(255, 255, 255, 0.92);',&#xA;'        border-radius: 18px;',&#xA;'        box-shadow: 0 8px 32px 0 rgba(44, 62, 80, 0.1), 0 1.5px 4px #bfc9d1;',&#xA;'        width: 95%;',&#xA;'        max-width: 600px;',&#xA;'        padding: 40px 30px 32px 30px;',&#xA;'        position: relative;',&#xA;'        overflow: hidden;',&#xA;'        border: 1.5px solid #e3e6ea;',&#xA;'        animation: fadeInUp 0.7s cubic-bezier(0.23, 1.01, 0.32, 1) both;',&#xA;'      }',&#xA;'      @keyframes fadeInUp {',&#xA;'        from { opacity: 0; transform: translateY(30px); }',&#xA;'        to { opacity: 1; transform: none; }',&#xA;'      }',&#xA;'      .container h1 {',&#xA;'        color: #2c3e50;',&#xA;'        font-weight: 400;',&#xA;'        margin-top: 0;',&#xA;'        margin-bottom: 25px;',&#xA;'        font-size: 28px;',&#xA;'        display: flex;',&#xA;'        align-items: center;',&#xA;'        letter-spacing: -0.5px;',&#xA;'        text-shadow: 0 1px 0 #f5f6fa;',&#xA;'      }',&#xA;'      label {',&#xA;'        display: block;',&#xA;'        margin-bottom: 10px;',&#xA;'        color: #6c7a89;',&#xA;'        font-size: 14px;',&#xA;'        font-weight: 500;',&#xA;'        letter-spacing: 0.3px;',&#xA;'      }',&#xA;'      input, select, textarea, .tibco-box select, .tibco-box input {',&#xA;'        width: 100%;',&#xA;'        padding: 12px 14px;',&#xA;'        border: 1.5px solid #e0e4e7;',&#xA;'        border-radius: 6px;',&#xA;'        background: #f7f8fa;',&#xA;'        font-size: 15px;',&#xA;'        color: #34495e;',&#xA;'        outline: none;',&#xA;'        transition: border-color 0.3s, box-shadow 0.3s;',&#xA;'        box-sizing: border-box;',&#xA;'        margin-bottom: 5px;',&#xA;'        box-shadow: 0 1px 2px #e9ecef inset;',&#xA;'      }',&#xA;'      input:focus, select:focus, textarea:focus, .tibco-box select:focus {',&#xA;'        border-color: #b2becd !important;',&#xA;'        box-shadow: 0 0 0 2px #e74c3c22 !important;',&#xA;'        background: #f3f4f7;',&#xA;'      }',&#xA;'      .input-error { border-color: #e74c3c !important; background: #fff0f0; }',&#xA;'      .error-message { color: #c0392b; font-size: 12px; margin-top: 2px; display: none; }',&#xA;'      .combobox-list { display: none; position: absolute; border: 1.5px solid #e0e4e7; border-top: none; max-height: 200px; overflow-y: auto; width: 100%; background-color: #fff; z-index: 100; box-shadow: 0 4px 12px rgba(44, 62, 80, 0.08); box-sizing: border-box; border-radius: 0 0 6px 6px; }',&#xA;'      .combobox-item { padding: 10px 18px; cursor: pointer; font-size: 15px; color: #34495e; transition: background 0.15s; }',&#xA;'      .combobox-item:hover { background-color: #f0f0f0; }',&#xA;'      .combobox-wrapper { position: relative; }',&#xA;'      button[type=&quot;submit&quot;] { background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; border: none; padding: 14px 28px; border-radius: 6px; font-size: 15px; font-weight: 500; cursor: pointer; box-shadow: 0 4px 12px rgba(231, 76, 60, 0.18); letter-spacing: 0.5px; transition: background 0.2s, box-shadow 0.2s; }',&#xA;'      button[type=&quot;submit&quot;]:hover { background: linear-gradient(135deg, #c0392b, #e74c3c); box-shadow: 0 6px 18px rgba(231, 76, 60, 0.22); }',&#xA;'      #formErrorBanner { opacity: 0; transition: opacity 0.3s ease-in-out; }',&#xA;'      #formErrorBanner.show { opacity: 1; }',&#xA;'      @media (max-width: 768px) { .container { padding: 20px 5px; } h1 { font-size: 24px; } }',&#xA;'    &lt;/style>',&#xA;'  &lt;/head>',&#xA;'  &lt;body>',&#xA;'    &lt;div class=&quot;container&quot;>',&#xA;'      &lt;h1>&lt;span style=&quot;background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; width: 42px; height: 42px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-right: 15px; font-size: 20px; box-shadow: 0 3px 6px rgba(231, 76, 60, 0.18);&quot;>!&lt;/span> Exception Interface&lt;/h1>',&#xA;'      &lt;form id=&quot;exceptionForm&quot; action=&quot;/Success.html&quot; method=&quot;POST&quot; novalidate>',&#xA;'        &lt;input type=&quot;hidden&quot; name=&quot;requestType&quot; value=&quot;REVIEW&quot; />',&#xA;'        &lt;div id=&quot;formErrorBanner&quot;>&lt;/div>',&#xA;'        ',&#xA;'        ',&#xA;'        &lt;div style=&quot;margin-bottom: 25px&quot;>',&#xA;'          &lt;label for=&quot;application&quot;>&lt;span style=&quot;color: #e74c3c; font-weight: bold&quot;>*&lt;/span> Application&lt;/label>',&#xA;'          &lt;div id=&quot;wrap_App&quot; class=&quot;tibco-box&quot;>',&#xA;$ApplicationNames/ApplicationNames/content,&#xA;'          &lt;/div>',&#xA;'          &lt;div class=&quot;error-message&quot; id=&quot;err_App&quot;>This field is required.&lt;/div>',&#xA;'        &lt;/div>',&#xA;'        ',&#xA;'        &lt;div style=&quot;margin-bottom: 25px&quot;>',&#xA;'          &lt;label for=&quot;codeNameInput&quot;>&lt;span style=&quot;color: #e74c3c; font-weight: bold&quot;>*&lt;/span> Code Name&lt;/label>',&#xA;'          &lt;div class=&quot;combobox-wrapper&quot;>',&#xA;'            &lt;input type=&quot;text&quot; id=&quot;codeNameInput&quot; name=&quot;codeName&quot; placeholder=&quot;Search or select an interface...&quot; autocomplete=&quot;off&quot; />',&#xA;'            &lt;div id=&quot;codeNameList&quot; class=&quot;combobox-list&quot;>&lt;/div>',&#xA;'          &lt;/div>',&#xA;'          &lt;div class=&quot;error-message&quot; id=&quot;codeNameError&quot;>This field is required.&lt;/div>',&#xA;'        &lt;/div>',&#xA;'        &lt;div style=&quot;margin-bottom: 25px&quot;>',&#xA;'          &lt;label for=&quot;datetime&quot;>&lt;span style=&quot;color: #e74c3c; font-weight: bold&quot;>*&lt;/span> Date &amp; Time&lt;/label>',&#xA;'          &lt;input type=&quot;datetime-local&quot; id=&quot;datetime&quot; name=&quot;datetime&quot; style=&quot;max-width: 300px&quot; />',&#xA;'          &lt;div class=&quot;error-message&quot; id=&quot;datetimeError&quot;>This field is required.&lt;/div>',&#xA;'        &lt;/div>',&#xA;'        &lt;div style=&quot;margin-bottom: 25px&quot;>',&#xA;'          &lt;label for=&quot;description&quot;>&lt;span style=&quot;color: #e74c3c; font-weight: bold&quot;>*&lt;/span> Description&lt;/label>',&#xA;'          &lt;textarea id=&quot;description&quot; name=&quot;description&quot; placeholder=&quot;Detailed description of the exception...&quot; maxlength=&quot;5000&quot; style=&quot;min-height: 100px; resize: vertical&quot;>&lt;/textarea>',&#xA;'          &lt;div class=&quot;error-message&quot; id=&quot;descriptionError&quot;>This field is required.&lt;/div>',&#xA;'        &lt;/div>',&#xA;'        &lt;div style=&quot;margin-bottom: 25px&quot;>',&#xA;'          &lt;label for=&quot;closeNotes&quot;>&lt;span style=&quot;color: #e74c3c; font-weight: bold&quot;>*&lt;/span> Close Notes&lt;/label>',&#xA;'          &lt;input type=&quot;text&quot; id=&quot;closeNotes&quot; name=&quot;closeNotes&quot; placeholder=&quot;Briefly describe the closing notes...&quot; maxlength=&quot;275&quot; />',&#xA;'          &lt;div class=&quot;error-message&quot; id=&quot;closeNotesError&quot;>This field is required.&lt;/div>',&#xA;'        &lt;/div>',&#xA;'        ',&#xA;'        ',&#xA;'        &lt;div style=&quot;margin-bottom: 25px&quot;>',&#xA;'          &lt;label for=&quot;assigned&quot;>&lt;span style=&quot;color: #e74c3c; font-weight: bold&quot;>*&lt;/span> Assigned&lt;/label>',&#xA;'          &lt;div id=&quot;wrap_Assigned&quot; class=&quot;tibco-box&quot;>',&#xA;$Personnels/Personnels/Content,&#xA;'          &lt;/div>',&#xA;'          &lt;div class=&quot;error-message&quot; id=&quot;err_Assigned&quot;>This field is required.&lt;/div>',&#xA;'        &lt;/div>',&#xA;'        ',&#xA;'        &lt;div style=&quot;margin-bottom: 25px&quot;>',&#xA;'          &lt;label for=&quot;count&quot;>&lt;span style=&quot;color: #e74c3c; font-weight: bold&quot;>*&lt;/span> Count&lt;/label>',&#xA;'          &lt;input type=&quot;number&quot; id=&quot;count&quot; name=&quot;count&quot; placeholder=&quot;Enter count&quot; min=&quot;0&quot; style=&quot;max-width: 200px&quot; />',&#xA;'          &lt;div class=&quot;error-message&quot; id=&quot;countError&quot;>This field is required.&lt;/div>',&#xA;'        &lt;/div>',&#xA;'        ',&#xA;'        ',&#xA;'        &lt;div style=&quot;margin-bottom: 25px&quot;>',&#xA;'          &lt;label for=&quot;kedbReference&quot;>&lt;span style=&quot;color: #e74c3c; font-weight: bold&quot;>*&lt;/span> KEDB Reference&lt;/label>',&#xA;'          &lt;div id=&quot;wrap_KEDB&quot; class=&quot;tibco-box&quot;>',&#xA;$KEDBReferrence/KEDBReferrence/Content,&#xA;'          &lt;/div>',&#xA;'          &lt;div class=&quot;error-message&quot; id=&quot;err_KEDB&quot;>This field is required.&lt;/div>',&#xA;'        &lt;/div>',&#xA;'        ',&#xA;'        &lt;div style=&quot;margin-bottom: 30px&quot;>',&#xA;'          &lt;label for=&quot;comments&quot;>Comments&lt;/label>',&#xA;'          &lt;textarea id=&quot;comments&quot; name=&quot;comments&quot; placeholder=&quot;Optional comments...&quot; maxlength=&quot;500&quot; style=&quot;min-height: 80px; resize: vertical&quot;>&lt;/textarea>',&#xA;'        &lt;/div>',&#xA;'        &lt;div style=&quot;text-align: right&quot;>&lt;button type=&quot;submit&quot;>Submit Exception&lt;/button>&lt;/div>',&#xA;'      &lt;/form>',&#xA;'    &lt;/div>',&#xA;'    &lt;script>',&#xA;$CodeNames/CodeNames/Content,&#xA;'      document.addEventListener(&quot;DOMContentLoaded&quot;, function() {',&#xA;'        ',&#xA;'        function getTibcoInput(wrapperId) {',&#xA;'           var wrapper = document.getElementById(wrapperId);',&#xA;'           if(!wrapper) return null;',&#xA;'           return wrapper.querySelector(&quot;select, input, textarea&quot;);',&#xA;'        }',&#xA;'        ',&#xA;'        /* UPDATED: validation now accepts an optional invalidPhrase */',&#xA;'        function validateItem(inputObj, errorId, invalidPhrase) {',&#xA;'           if (!inputObj) return false;',&#xA;'           var errorEl = document.getElementById(errorId);',&#xA;'           var val = inputObj.value.trim();',&#xA;'           ',&#xA;'           /* Fail if empty OR if value matches the &quot;Select...&quot; placeholder */',&#xA;'           var isInvalid = (!val || val === &quot;&quot; || (invalidPhrase &amp;&amp; val === invalidPhrase));',&#xA;'           ',&#xA;'           if (isInvalid) {',&#xA;'              inputObj.classList.add(&quot;input-error&quot;);',&#xA;'              if(errorEl) errorEl.style.display = &quot;block&quot;;',&#xA;'              return false;',&#xA;'           }',&#xA;'           inputObj.classList.remove(&quot;input-error&quot;);',&#xA;'           if(errorEl) errorEl.style.display = &quot;none&quot;;',&#xA;'           return true;',&#xA;'        }',&#xA;'        ',&#xA;'        function runAllValidations() {',&#xA;'           var isValid = true;',&#xA;'           ',&#xA;'           /* 1. TIBCO Dynamic Fields with SPECIFIC invalid phrases */',&#xA;'           var appIn = getTibcoInput(&quot;wrap_App&quot;);',&#xA;'           if (!validateItem(appIn, &quot;err_App&quot;, &quot;Select an application&quot;)) isValid = false;',&#xA;'           ',&#xA;'           var assignIn = getTibcoInput(&quot;wrap_Assigned&quot;);',&#xA;'           if (!validateItem(assignIn, &quot;err_Assigned&quot;, &quot;Select assignee&quot;)) isValid = false;',&#xA;'           ',&#xA;'           var kedbIn = getTibcoInput(&quot;wrap_KEDB&quot;);',&#xA;'           if (!validateItem(kedbIn, &quot;err_KEDB&quot;, &quot;Select KEDB reference&quot;)) isValid = false;',&#xA;'           ',&#xA;'           /* 2. Static Fields */',&#xA;'           if (!validateItem(document.getElementById(&quot;codeNameInput&quot;), &quot;codeNameError&quot;)) isValid = false;',&#xA;'           if (!validateItem(document.getElementById(&quot;datetime&quot;), &quot;datetimeError&quot;)) isValid = false;',&#xA;'           if (!validateItem(document.getElementById(&quot;description&quot;), &quot;descriptionError&quot;)) isValid = false;',&#xA;'           if (!validateItem(document.getElementById(&quot;closeNotes&quot;), &quot;closeNotesError&quot;)) isValid = false;',&#xA;'           ',&#xA;'           /* 3. Count */',&#xA;'           var countIn = document.getElementById(&quot;count&quot;);',&#xA;'           var countErr = document.getElementById(&quot;countError&quot;);',&#xA;'           var validCount = countIn.value.trim() !== &quot;&quot; &amp;&amp; Number(countIn.value) >= 0;',&#xA;'           if (!validCount) {',&#xA;'              countIn.classList.add(&quot;input-error&quot;);',&#xA;'              countErr.style.display = &quot;block&quot;;',&#xA;'              isValid = false;',&#xA;'           } else {',&#xA;'              countIn.classList.remove(&quot;input-error&quot;);',&#xA;'              countErr.style.display = &quot;none&quot;;',&#xA;'           }',&#xA;'           ',&#xA;'           return isValid;',&#xA;'        }',&#xA;'        ',&#xA;'        /* --- Listeners --- */',&#xA;'        var wrappers = [',&#xA;'           { w: &quot;wrap_App&quot;, e: &quot;err_App&quot;, bad: &quot;Select an application&quot; },',&#xA;'           { w: &quot;wrap_Assigned&quot;, e: &quot;err_Assigned&quot;, bad: &quot;Select assignee&quot; },',&#xA;'           { w: &quot;wrap_KEDB&quot;, e: &quot;err_KEDB&quot;, bad: &quot;Select KEDB reference&quot; }',&#xA;'        ];',&#xA;'        wrappers.forEach(function(item) {',&#xA;'           var el = getTibcoInput(item.w);',&#xA;'           if(el) {',&#xA;'              el.addEventListener(&quot;change&quot;, function() { validateItem(el, item.e, item.bad); });',&#xA;'              el.addEventListener(&quot;blur&quot;, function() { validateItem(el, item.e, item.bad); });',&#xA;'           }',&#xA;'        });',&#xA;'        ',&#xA;'        var statics = [',&#xA;'           { i: &quot;codeNameInput&quot;, e: &quot;codeNameError&quot; },',&#xA;'           { i: &quot;datetime&quot;, e: &quot;datetimeError&quot; },',&#xA;'           { i: &quot;description&quot;, e: &quot;descriptionError&quot; },',&#xA;'           { i: &quot;closeNotes&quot;, e: &quot;closeNotesError&quot; }',&#xA;'        ];',&#xA;'        statics.forEach(function(item) {',&#xA;'           var el = document.getElementById(item.i);',&#xA;'           if(el) {',&#xA;'              el.addEventListener(&quot;input&quot;, function() { validateItem(el, item.e); });',&#xA;'              el.addEventListener(&quot;blur&quot;, function() { validateItem(el, item.e); });',&#xA;'           }',&#xA;'        });',&#xA;'        ',&#xA;'        var countInput = document.getElementById(&quot;count&quot;);',&#xA;'        if(countInput) {',&#xA;'           countInput.addEventListener(&quot;input&quot;, function() {',&#xA;'               var valid = countInput.value.trim() !== &quot;&quot; &amp;&amp; Number(countInput.value) >= 0;',&#xA;'               var err = document.getElementById(&quot;countError&quot;);',&#xA;'               if (!valid) { countInput.classList.add(&quot;input-error&quot;); err.style.display = &quot;block&quot;; }',&#xA;'               else { countInput.classList.remove(&quot;input-error&quot;); err.style.display = &quot;none&quot;; }',&#xA;'           });',&#xA;'        }',&#xA;'        ',&#xA;'        var form = document.getElementById(&quot;exceptionForm&quot;);',&#xA;'        var banner = document.getElementById(&quot;formErrorBanner&quot;);',&#xA;'        ',&#xA;'        form.addEventListener(&quot;submit&quot;, function(e) {',&#xA;'           if (!runAllValidations()) {',&#xA;'              e.preventDefault();',&#xA;'              banner.textContent = &quot;⚠️ Please fill all required fields.&quot;;',&#xA;'              banner.classList.add(&quot;show&quot;);',&#xA;'              banner.style.display = &quot;block&quot;;',&#xA;'              setTimeout(function() { banner.classList.remove(&quot;show&quot;); banner.style.display = &quot;none&quot;; }, 4000);',&#xA;'           }',&#xA;'        });',&#xA;'        ',&#xA;'        /* Init Date and CodeName (Same as before) */',&#xA;'        var now = new Date();',&#xA;'        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());',&#xA;'        document.getElementById(&quot;datetime&quot;).value = now.toISOString().slice(0, 16);',&#xA;'        ',&#xA;'        var codeNameInput = document.getElementById(&quot;codeNameInput&quot;);',&#xA;'        var codeNameList = document.getElementById(&quot;codeNameList&quot;);',&#xA;'        function populateCodeNameList(options) {',&#xA;'          codeNameList.innerHTML = &quot;&quot;;',&#xA;'          options.forEach(function(option) {',&#xA;'            var div = document.createElement(&quot;div&quot;);',&#xA;'            div.className = &quot;combobox-item&quot;;',&#xA;'            div.textContent = option;',&#xA;'            div.addEventListener(&quot;mousedown&quot;, function(e) {',&#xA;'              e.preventDefault();',&#xA;'              codeNameInput.value = option;',&#xA;'              codeNameList.style.display = &quot;none&quot;;',&#xA;'              validateItem(codeNameInput, &quot;codeNameError&quot;);',&#xA;'            });',&#xA;'            codeNameList.appendChild(div);',&#xA;'          });',&#xA;'          codeNameList.style.display = options.length ? &quot;block&quot; : &quot;none&quot;;',&#xA;'        }',&#xA;'        codeNameInput.addEventListener(&quot;focus&quot;, function() {',&#xA;'           var filter = codeNameInput.value.toLowerCase();',&#xA;'           var filtered = (typeof codeNameOptions !== &quot;undefined&quot; ? codeNameOptions : []).filter(function(o) { return o.toLowerCase().includes(filter); });',&#xA;'           populateCodeNameList(filtered);',&#xA;'        });',&#xA;'        codeNameInput.addEventListener(&quot;keyup&quot;, function() {',&#xA;'           var filter = codeNameInput.value.toLowerCase();',&#xA;'           var filtered = (typeof codeNameOptions !== &quot;undefined&quot; ? codeNameOptions : []).filter(function(o) { return o.toLowerCase().includes(filter); });',&#xA;'           populateCodeNameList(filtered);',&#xA;'        });',&#xA;'        codeNameInput.addEventListener(&quot;blur&quot;, function() { setTimeout(function() { codeNameList.style.display = &quot;none&quot;; }, 150); });',&#xA;'      });',&#xA;'    &lt;/script>',&#xA;'  &lt;/body>',&#xA;'&lt;/html>'&#xA;)"/>
+                </param>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="KEDBReferrence">
+        <pd:type>com.tibco.pe.core.GetSharedVariableActivity</pd:type>
+        <pd:resourceType>ae.activities.getSharedVariable</pd:resourceType>
+        <pd:x>433</pd:x>
+        <pd:y>330</pd:y>
+        <config>
+            <variableConfig>/Shared Resources/Variables/KEDBReferrence.sharedvariable</variableConfig>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:activity name="Landing Page">
+        <pd:type>com.tibco.plugin.http.HTTPResponseActivity</pd:type>
+        <pd:resourceType>httppalette.httpWebResponse</pd:resourceType>
+        <pd:x>724</pd:x>
+        <pd:y>330</pd:y>
+        <config>
+            <closeConnection>true</closeConnection>
+            <eventSource>HTTP Receiver</eventSource>
+            <Headers>
+                <xsd:element name="root">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="StatusLine" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Content-Type" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Set-Cookie" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Pragma" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Location" type="xsd:string" minOccurs="0"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </Headers>
+        </config>
+        <pd:inputBindings>
+            <ResponseActivityInput>
+                <asciiContent>
+                    <xsl:value-of select="$Intial-Webpage-content/root/param"/>
+                </asciiContent>
+            </ResponseActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Null">
+        <pd:type>com.tibco.plugin.timer.NullActivity</pd:type>
+        <pd:resourceType>ae.activities.null</pd:resourceType>
+        <pd:x>854</pd:x>
+        <pd:y>333</pd:y>
+        <config/>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:activity name="Null-1">
+        <pd:type>com.tibco.plugin.timer.NullActivity</pd:type>
+        <pd:resourceType>ae.activities.null</pd:resourceType>
+        <pd:x>919</pd:x>
+        <pd:y>496</pd:y>
+        <config/>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:activity name="Personnels">
+        <pd:type>com.tibco.pe.core.GetSharedVariableActivity</pd:type>
+        <pd:resourceType>ae.activities.getSharedVariable</pd:resourceType>
+        <pd:x>310</pd:x>
+        <pd:y>330</pd:y>
+        <config>
+            <variableConfig>/Shared Resources/Variables/Personnels.sharedvariable</variableConfig>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:activity name="Success_Page">
+        <pd:type>com.tibco.plugin.http.HTTPResponseActivity</pd:type>
+        <pd:resourceType>httppalette.httpWebResponse</pd:resourceType>
+        <pd:x>677</pd:x>
+        <pd:y>139</pd:y>
+        <config>
+            <closeConnection>true</closeConnection>
+            <eventSource>HTTP Receiver</eventSource>
+            <Headers>
+                <xsd:element name="root">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="StatusLine" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Content-Type" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Set-Cookie" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Pragma" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Location" type="xsd:string" minOccurs="0"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </Headers>
+        </config>
+        <pd:inputBindings>
+            <ResponseActivityInput>
+                <asciiContent>
+                    <xsl:value-of select="concat('&lt;!DOCTYPE html>&lt;html lang=&quot;en&quot;>&lt;head>&lt;meta charset=&quot;UTF-8&quot; />&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; />&lt;title>Submission Success&lt;/title>&lt;link href=&quot;https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap&quot; rel=&quot;stylesheet&quot; />&lt;style>* { margin: 0; padding: 0; box-sizing: border-box; } body { background: linear-gradient( 135deg, #667eea 0%, #764ba2 50%, #f093fb 100% ); font-family: &quot;Inter&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif; min-height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; } body::before { content: &quot;&quot;; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient( circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50% ), radial-gradient( circle at 80% 20%, rgba(255, 255, 255, 0.15) 0%, transparent 50% ), radial-gradient( circle at 40% 40%, rgba(120, 119, 198, 0.2) 0%, transparent 50% ); animation: float 20s ease-in-out infinite; z-index: 0; } @keyframes float { 0%, 100% { transform: translate(0px, 0px) rotate(0deg); } 33% { transform: translate(30px, -30px) rotate(120deg); } 66% { transform: translate(-20px, 20px) rotate(240deg); } } .container { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 24px; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15), 0 15px 35px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.6); padding: 50px 40px; max-width: 420px; width: 90%; text-align: center; position: relative; z-index: 1; animation: slideInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); overflow: hidden; } .container::before { content: &quot;&quot;; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient( 90deg, transparent, rgba(255, 255, 255, 0.4), transparent ); animation: shimmer 3s ease-in-out infinite; } @keyframes slideInUp { 0% { opacity: 0; transform: translateY(60px) scale(0.95); } 100% { opacity: 1; transform: translateY(0) scale(1); } } @keyframes shimmer { 0% { left: -100%; } 50% { left: 100%; } 100% { left: 100%; } } .success-icon { width: 80px; height: 80px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 28px; position: relative; animation: successBounce 1s cubic-bezier(0.68, -0.55, 0.265, 1.55); box-shadow: 0 10px 40px rgba(16, 185, 129, 0.4), 0 0 0 0 rgba(16, 185, 129, 0.7); } .success-icon::before { content: &quot;&quot;; position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 2px solid #10b981; animation: ripple 2s ease-out infinite; } .success-icon::after { content: &quot;&quot;; position: absolute; width: 120%; height: 120%; border-radius: 50%; border: 1px solid rgba(16, 185, 129, 0.3); animation: ripple 2s ease-out infinite 1s; } @keyframes successBounce { 0% { transform: scale(0) rotate(-180deg); opacity: 0; } 50% { transform: scale(1.2) rotate(-90deg); opacity: 0.8; } 100% { transform: scale(1) rotate(0deg); opacity: 1; } } @keyframes ripple { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(1.5); opacity: 0; } } .success-icon .checkmark { color: white; font-size: 32px; font-weight: 700; animation: checkDraw 0.8s ease-out 0.3s both; } @keyframes checkDraw { 0% { transform: scale(0); opacity: 0; } 50% { transform: scale(1.3); opacity: 0.7; } 100% { transform: scale(1); opacity: 1; } } h2 { font-size: 2.2rem; font-weight: 700; margin-bottom: 18px; background: linear-gradient( 135deg, #1f2937 0%, #4f46e5 50%, #7c3aed 100% ); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: fadeInUp 0.8s ease-out 0.2s both; letter-spacing: -0.02em; } p { color: #6b7280; font-size: 1.15rem; line-height: 1.7; margin-bottom: 35px; animation: fadeInUp 0.8s ease-out 0.4s both; font-weight: 400; } a { display: inline-block; padding: 16px 36px; background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); color: white; text-decoration: none; border-radius: 12px; font-weight: 600; font-size: 1.05rem; transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); box-shadow: 0 8px 32px rgba(59, 130, 246, 0.3), 0 2px 8px rgba(59, 130, 246, 0.2); position: relative; overflow: hidden; animation: fadeInUp 0.8s ease-out 0.6s both; } a::before { content: &quot;&quot;; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient( 90deg, transparent, rgba(255, 255, 255, 0.2), transparent ); transition: left 0.5s; } a:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 15px 45px rgba(59, 130, 246, 0.4), 0 5px 15px rgba(59, 130, 246, 0.3); } a:hover::before { left: 100%; } a:active { transform: translateY(-1px) scale(1.01); } @keyframes fadeInUp { 0% { opacity: 0; transform: translateY(30px); } 100% { opacity: 1; transform: translateY(0); } } @keyframes fadeInDown { 0% { opacity: 0; transform: translateY(-20px); } 100% { opacity: 0.9; transform: translateY(0); } } @media (max-width: 500px) { .container { padding: 35px 25px; margin: 20px; border-radius: 20px; } h2 { font-size: 1.8rem; margin-bottom: 15px; } p { font-size: 1rem; margin-bottom: 30px; } .success-icon { width: 65px; height: 65px; margin-bottom: 25px; } .success-icon .checkmark { font-size: 26px; } a { padding: 14px 28px; font-size: 1rem; } } @media (prefers-contrast: high) { .container { background: white; border: 2px solid #000; } h2 { background: #000; -webkit-text-fill-color: transparent; } }&lt;/style>&lt;/head>&lt;body>&lt;div class=&quot;container&quot;>&lt;div class=&quot;success-icon&quot;>&lt;div class=&quot;checkmark&quot;>✓&lt;/div>&lt;/div>&lt;h2>Exception Submitted Successfully!&lt;/h2>&lt;p>Your exception report has been submitted and will be reviewed.&lt;/p>&lt;a href=&quot;/&quot;>Return to Dashboard&lt;/a>&lt;/div>&lt;/body>&lt;/html>', &quot;&quot;)"/>
+                </asciiContent>
+            </ResponseActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>HTTP Receiver</pd:from>
+        <pd:to>CodeNames</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>otherwise</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Review_Page</pd:from>
+        <pd:to>Return_Review_Page</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+     <pd:transition>
+        <pd:from>Return_Review_Page</pd:from>
+        <pd:to>Null</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>HTTP Receiver</pd:from>
+        <pd:to>Review_Page</pd:to>
+        <pd:xpathDescription>Review</pd:xpathDescription>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>$HTTP-Receiver/ProcessStarterOutput/parameters/requestType[1] = 'REVIEW'</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Null</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>S-Shaped</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Intial Webpage content</pd:from>
+        <pd:to>Landing Page</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Landing Page</pd:from>
+        <pd:to>Null</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Error_Mail-1</pd:from>
+        <pd:to>Null-1</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Null-1</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Error_Page</pd:from>
+        <pd:to>Error_Mail-1</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Catch-1</pd:from>
+        <pd:to>Error_Page</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>CodeNames</pd:from>
+        <pd:to>ApplicationNames</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>ApplicationNames</pd:from>
+        <pd:to>Personnels</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Personnels</pd:from>
+        <pd:to>KEDBReferrence</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>KEDBReferrence</pd:from>
+        <pd:to>Intial Webpage content</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>CodeNames</pd:from>
+        <pd:to>Generate Error</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>error</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>ApplicationNames</pd:from>
+        <pd:to>Generate-Error-1</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>error</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>HTTP Receiver</pd:from>
+        <pd:to>Group</pd:to>
+        <pd:xpathDescription>Valid</pd:xpathDescription>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16711936</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>$HTTP-Receiver/ProcessStarterOutput/parameters/application!='' and 
+$HTTP-Receiver/ProcessStarterOutput/parameters/codeName!='' and 
+$HTTP-Receiver/ProcessStarterOutput/parameters/datetime!='' and 
+$HTTP-Receiver/ProcessStarterOutput/parameters/description!='' and 
+$HTTP-Receiver/ProcessStarterOutput/parameters/closeNotes!='' and
+$HTTP-Receiver/ProcessStarterOutput/parameters/assigned!='' and
+$HTTP-Receiver/ProcessStarterOutput/parameters/count!='' and
+$HTTP-Receiver/ProcessStarterOutput/parameters/kedbReference!='' and
+$HTTP-Receiver/ProcessStarterOutput/parameters/requestType='SAVE'</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Group</pd:from>
+        <pd:to>Success_Page</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Personnels</pd:from>
+        <pd:to>Generate-Error-2</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>error</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>KEDBReferrence</pd:from>
+        <pd:to>Generate-Error-3</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>error</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Success_Page</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

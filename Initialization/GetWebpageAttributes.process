@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pfx="http://www.tibco.com/schemas/Exception_Interface_Tibco/Shared Resources/Data/Schema.xsd2" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:pfx2="http://www.tibco.com/schemas/Exception_Interface_Tibco/Shared Resources/Data/Schema.xsd4" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/file" xmlns:pfx3="http://www.tibco.com/schemas/Exception_Interface_Tibco/Shared Resources/Data/Schema.xsd5" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://www.tibco.com/namespaces/tnt/plugins/file/v2" xmlns:ns2="http://www.tibco.com/schemas/Exception_Interface_Tibco/Shared Resources/Data/Schema.xsd3" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType">
+    <xsd:import namespace="http://www.tibco.com/schemas/Exception_Interface_Tibco/Shared Resources/Data/Schema.xsd3" schemaLocation="/Shared Resources/Data/Schemas/CodeNames.xsd"/>
+    <xsd:import namespace="http://www.tibco.com/schemas/Exception_Interface_Tibco/Shared Resources/Data/Schema.xsd2" schemaLocation="/Shared Resources/Data/Schemas/ApplicationNames.xsd"/>
+    <xsd:import namespace="http://www.tibco.com/schemas/Exception_Interface_Tibco/Shared Resources/Data/Schema.xsd4" schemaLocation="/Shared Resources/Data/Schemas/Personnels.xsd"/>
+    <xsd:import namespace="http://www.tibco.com/schemas/Exception_Interface_Tibco/Shared Resources/Data/Schema.xsd5" schemaLocation="/Shared Resources/Data/Schemas/KEDBRef.xsd"/>
+    <pd:name>Initialization/GetWebpageAttributes.process</pd:name>
+    <pd:startName>File Poller</pd:startName>
+    <pd:startX>0</pd:startX>
+    <pd:startY>0</pd:startY>
+    <pd:returnBindings/>
+    <pd:starter name="File Poller">
+        <pd:type>com.tibco.plugin.file.FileEventSource</pd:type>
+        <pd:resourceType>ae.activities.FileEventSourceResource</pd:resourceType>
+        <pd:x>196</pd:x>
+        <pd:y>228</pd:y>
+        <config>
+            <pollInterval>%%Timer/Polling_sec%%</pollInterval>
+            <createEvent>true</createEvent>
+            <modifyEvent>true</modifyEvent>
+            <deleteEvent>false</deleteEvent>
+            <mode>only-files</mode>
+            <encoding>text</encoding>
+            <sortby>Date Modified</sortby>
+            <sortorder>descending</sortorder>
+            <fileName>%%Config_Files/Config_File_Dir%%</fileName>
+            <includeCurrent>true</includeCurrent>
+        </config>
+        <pd:inputBindings/>
+    </pd:starter>
+    <pd:endName>End</pd:endName>
+    <pd:endX>906</pd:endX>
+    <pd:endY>221</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1762348975995</pd:targetNamespace>
+    <pd:group name="Group">
+        <pd:type>com.tibco.pe.core.LoopGroup</pd:type>
+        <pd:resourceType>ae.process.group</pd:resourceType>
+        <pd:x>279</pd:x>
+        <pd:y>4</pd:y>
+        <pd:width>579</pd:width>
+        <pd:height>419</pd:height>
+        <pd:collapsedWidth>52</pd:collapsedWidth>
+        <pd:collapsedHeight>69</pd:collapsedHeight>
+        <pd:groupVariables/>
+        <config>
+            <pd:groupType>simpleGroup</pd:groupType>
+            <pd:serializable>false</pd:serializable>
+        </config>
+        <pd:inputBindings/>
+        <pd:expanded>true</pd:expanded>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>Parse XML</pd:to>
+            <pd:xpathDescription>CodeNames</pd:xpathDescription>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>xpath</pd:conditionType>
+            <pd:xpath>contains($File-Poller/ns:EventSourceOuputTextClass/fileInfo/fileName,'CodeNames.xml')</pd:xpath>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>Parse-XML-1-2</pd:to>
+            <pd:xpathDescription>KEDB Reference</pd:xpathDescription>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>xpath</pd:conditionType>
+            <pd:xpath>contains($File-Poller/ns:EventSourceOuputTextClass/fileInfo/fileName,'KEBDRef.xml')</pd:xpath>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>Parse-XML-1-1</pd:to>
+            <pd:xpathDescription>Assigned</pd:xpathDescription>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>xpath</pd:conditionType>
+            <pd:xpath>contains($File-Poller/ns:EventSourceOuputTextClass/fileInfo/fileName,'Personnels.xml')</pd:xpath>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>Parse-XML-1</pd:to>
+            <pd:xpathDescription>ApplicationNames</pd:xpathDescription>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>xpath</pd:conditionType>
+            <pd:xpath>contains($File-Poller/ns:EventSourceOuputTextClass/fileInfo/fileName,'ApplicationNames.xml')</pd:xpath>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>SetKEDB</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>SetCodenames</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>SetPersonnelName</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>SetApplicationNames</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>SelectCodeName</pd:from>
+            <pd:to>SetCodenames</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>Parse XML</pd:from>
+            <pd:to>SelectCodeName</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>Parse-XML-1-1</pd:from>
+            <pd:to>SelectPersonnelName</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>Parse-XML-1-2</pd:from>
+            <pd:to>SelectKEDBRef</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>Parse-XML-1</pd:from>
+            <pd:to>SelectApplicationNames</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>SelectApplicationNames</pd:from>
+            <pd:to>SetApplicationNames</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>SelectPersonnelName</pd:from>
+            <pd:to>SetPersonnelName</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>SelectKEDBRef</pd:from>
+            <pd:to>SetKEDB</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:activity name="Parse XML">
+            <pd:type>com.tibco.plugin.xml.XMLParseActivity</pd:type>
+            <pd:resourceType>ae.activities.XMLParseActivity</pd:resourceType>
+            <pd:x>468</pd:x>
+            <pd:y>68</pd:y>
+            <config>
+                <inputStyle>text</inputStyle>
+                <xsdVersion>default</xsdVersion>
+                <validateOutput>false</validateOutput>
+                <term ref="ns2:CodeNameInfo"/>
+            </config>
+            <pd:inputBindings>
+                <xmlString>
+                    <xsl:value-of select="$File-Poller/ns:EventSourceOuputTextClass/fileContent/textContent"/>
+                </xmlString>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="Parse-XML-1-1">
+            <pd:type>com.tibco.plugin.xml.XMLParseActivity</pd:type>
+            <pd:resourceType>ae.activities.XMLParseActivity</pd:resourceType>
+            <pd:x>468</pd:x>
+            <pd:y>244</pd:y>
+            <config>
+                <inputStyle>text</inputStyle>
+                <xsdVersion>default</xsdVersion>
+                <validateOutput>false</validateOutput>
+                <term ref="pfx2:AssignedInfo"/>
+            </config>
+            <pd:inputBindings>
+                <xmlString>
+                    <xsl:value-of select="$File-Poller/ns:EventSourceOuputTextClass/fileContent/textContent"/>
+                </xmlString>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="Parse-XML-1-2">
+            <pd:type>com.tibco.plugin.xml.XMLParseActivity</pd:type>
+            <pd:resourceType>ae.activities.XMLParseActivity</pd:resourceType>
+            <pd:x>468</pd:x>
+            <pd:y>345</pd:y>
+            <config>
+                <inputStyle>text</inputStyle>
+                <xsdVersion>default</xsdVersion>
+                <validateOutput>false</validateOutput>
+                <term ref="pfx3:KEDBReferenceInfo"/>
+            </config>
+            <pd:inputBindings>
+                <xmlString>
+                    <xsl:value-of select="$File-Poller/ns:EventSourceOuputTextClass/fileContent/textContent"/>
+                </xmlString>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="SelectCodeName">
+            <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+            <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+            <pd:x>569</pd:x>
+            <pd:y>69</pd:y>
+            <config>
+                <element>
+                    <xsd:element name="root">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="JSArrayItems" type="xsd:string"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                </element>
+            </config>
+            <pd:inputBindings>
+                <root>
+                    <JSArrayItems>
+                        <xsl:value-of select="concat(&#xA;    'const codeNameOptions = [&quot;', &#xA;    tib:concat-sequence-format($Parse-XML/ns2:CodeNameInfo/ns2:CodeName/ns2:Name, '&quot;, &quot;'), &#xA;    '&quot;];'&#xA;)"/>
+                    </JSArrayItems>
+                </root>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="SelectKEDBRef">
+            <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+            <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+            <pd:x>578</pd:x>
+            <pd:y>347</pd:y>
+            <config>
+                <element>
+                    <xsd:element name="KEDB">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="SelectOpen" type="xsd:string"/>
+                                <xsd:element name="SelectItems" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+                                <xsd:element name="SelectClose" type="xsd:string"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                </element>
+            </config>
+            <pd:inputBindings>
+                <KEDB>
+                    <SelectOpen>
+                        <xsl:value-of select="'&lt;select id=&quot;kedbReference&quot; name=&quot;kedbReference&quot;>'"/>
+                    </SelectOpen>
+                    <xsl:for-each select="$Parse-XML-1-2/*[local-name()=&quot;KEBDReferenceInfo&quot;]/*[local-name()=&quot;KEBDReference&quot;]">
+                        <SelectItems>
+                            <xsl:value-of select="concat('&lt;option value=&quot;',*[local-name()=&quot;Name&quot;], '&quot;>',*[local-name()=&quot;Name&quot;], '&lt;/option>')"/>
+                        </SelectItems>
+                    </xsl:for-each>
+                    <SelectClose>
+                        <xsl:value-of select="'&lt;/select>'"/>
+                    </SelectClose>
+                </KEDB>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="SelectPersonnelName">
+            <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+            <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+            <pd:x>579</pd:x>
+            <pd:y>245</pd:y>
+            <config>
+                <element>
+                    <xsd:element name="Personnels">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="SelectOpen" type="xsd:string"/>
+                                <xsd:element name="SelectItems" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+                                <xsd:element name="SelectClose" type="xsd:string"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                </element>
+            </config>
+            <pd:inputBindings>
+                <Personnels>
+                    <SelectOpen>
+                        <xsl:value-of select="'&lt;select id=&quot;assigned&quot; name=&quot;assigned&quot;>'"/>
+                    </SelectOpen>
+                    <xsl:for-each select="$Parse-XML-1-1/pfx2:AssignedInfo/pfx2:Assigned">
+                        <SelectItems>
+                            <xsl:value-of select="concat(&quot;&lt;option value='&quot;, normalize-space(pfx2:Name), &quot;'>&quot;, normalize-space(pfx2:Name), &quot;&lt;/option>&quot;)"/>
+                        </SelectItems>
+                    </xsl:for-each>
+                    <SelectClose>
+                        <xsl:value-of select="'&lt;/select>'"/>
+                    </SelectClose>
+                </Personnels>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="SetCodenames">
+            <pd:type>com.tibco.pe.core.SetSharedVariableActivity</pd:type>
+            <pd:resourceType>ae.activities.setSharedVariable</pd:resourceType>
+            <pd:x>692</pd:x>
+            <pd:y>69</pd:y>
+            <config>
+                <variableConfig>/Shared Resources/Variables/CodeNames.sharedvariable</variableConfig>
+            </config>
+            <pd:inputBindings>
+                <CodeNames>
+                    <Content>
+                        <xsl:value-of select="$SelectCodeName/root/JSArrayItems"/>
+                    </Content>
+                </CodeNames>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="SelectApplicationNames">
+            <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+            <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+            <pd:x>577</pd:x>
+            <pd:y>154</pd:y>
+            <config>
+                <element>
+                    <xsd:element name="ApplicatioNames">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="SelectOpen" type="xsd:string"/>
+                                <xsd:element name="SelectItems" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+                                <xsd:element name="SelectClose" type="xsd:string"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                </element>
+            </config>
+            <pd:inputBindings>
+                <ApplicatioNames>
+                    <SelectOpen>
+                        <xsl:value-of select="'&lt;select id=&quot;application&quot; name=&quot;application&quot;>'"/>
+                    </SelectOpen>
+                    <xsl:for-each select="$Parse-XML-1/pfx:ApplicationInfo/pfx:ApplicationItem">
+                        <SelectItems>
+                            <xsl:value-of select="concat(&quot;&lt;option value='&quot;, normalize-space(pfx:Name), &quot;'>&quot;, normalize-space(pfx:Name), &quot;&lt;/option>&quot;)"/>
+                        </SelectItems>
+                    </xsl:for-each>
+                    <SelectClose>
+                        <xsl:value-of select="'&lt;/select>'"/>
+                    </SelectClose>
+                </ApplicatioNames>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="Parse-XML-1">
+            <pd:type>com.tibco.plugin.xml.XMLParseActivity</pd:type>
+            <pd:resourceType>ae.activities.XMLParseActivity</pd:resourceType>
+            <pd:x>461</pd:x>
+            <pd:y>154</pd:y>
+            <config>
+                <inputStyle>text</inputStyle>
+                <xsdVersion>default</xsdVersion>
+                <validateOutput>false</validateOutput>
+                <term ref="pfx:ApplicationInfo"/>
+            </config>
+            <pd:inputBindings>
+                <xmlString>
+                    <xsl:value-of select="$File-Poller/ns:EventSourceOuputTextClass/fileContent/textContent"/>
+                </xmlString>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="SetApplicationNames">
+            <pd:type>com.tibco.pe.core.SetSharedVariableActivity</pd:type>
+            <pd:resourceType>ae.activities.setSharedVariable</pd:resourceType>
+            <pd:x>702</pd:x>
+            <pd:y>154</pd:y>
+            <config>
+                <variableConfig>/Shared Resources/Variables/ApplicationNames.sharedvariable</variableConfig>
+            </config>
+            <pd:inputBindings>
+                <ApplicationNames>
+                    <content>
+                        <xsl:value-of select="concat(&#xA;$SelectApplicationNames/ApplicatioNames/SelectOpen,&quot;&#xA;&quot;,&#xA;tib:concat-sequence-format($SelectApplicationNames/ApplicatioNames/SelectItems, &quot;&quot;),&quot;&#xA;&quot;,&#xA;$SelectApplicationNames/ApplicatioNames/SelectClose&#xA;)"/>
+                    </content>
+                </ApplicationNames>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="SetPersonnelName">
+            <pd:type>com.tibco.pe.core.SetSharedVariableActivity</pd:type>
+            <pd:resourceType>ae.activities.setSharedVariable</pd:resourceType>
+            <pd:x>701</pd:x>
+            <pd:y>245</pd:y>
+            <config>
+                <variableConfig>/Shared Resources/Variables/Personnels.sharedvariable</variableConfig>
+            </config>
+            <pd:inputBindings>
+                <Personnels>
+                    <Content>
+                        <xsl:value-of select="concat(&#xA;$SelectPersonnelName/Personnels/SelectOpen,&quot;&#xA;&quot;,&#xA;tib:concat-sequence-format($SelectPersonnelName/Personnels/SelectItems, &quot;&quot;),&quot;&#xA;&quot;,&#xA;$SelectPersonnelName/Personnels/SelectClose&#xA;)"/>
+                    </Content>
+                </Personnels>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="SetKEDB">
+            <pd:type>com.tibco.pe.core.SetSharedVariableActivity</pd:type>
+            <pd:resourceType>ae.activities.setSharedVariable</pd:resourceType>
+            <pd:x>699</pd:x>
+            <pd:y>346</pd:y>
+            <config>
+                <variableConfig>/Shared Resources/Variables/KEDBReferrence.sharedvariable</variableConfig>
+            </config>
+            <pd:inputBindings>
+                <KEDBReferrence>
+                    <Content>
+                        <xsl:value-of select="concat(&#xA;$SelectKEDBRef/KEDB/SelectOpen,&quot;&#xA;&quot;,&#xA;tib:concat-sequence-format($SelectKEDBRef/KEDB/SelectItems, &quot;&quot;),&quot;&#xA;&quot;,&#xA;$SelectKEDBRef/KEDB/SelectClose&#xA;)"/>
+                    </Content>
+                </KEDBReferrence>
+            </pd:inputBindings>
+        </pd:activity>
+    </pd:group>
+    <pd:transition>
+        <pd:from>File Poller</pd:from>
+        <pd:to>Group</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Group</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>
