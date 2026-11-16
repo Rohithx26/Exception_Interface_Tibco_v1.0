@@ -3,43 +3,43 @@
 	<globalVariables>
 		<globalVariable>
 			<name>ApplicationName_File</name>
-			<value>F:\Exception\Config_Files\ApplicationNames.xml</value>
+			<value>U:\Exception\Config_Files\ApplicationNames.xml</value>
 			<deploymentSettable>true</deploymentSettable>
 			<serviceSettable>false</serviceSettable>
 			<type>String</type>
-			<modTime>1769516338310</modTime>
+			<modTime>1769685909696</modTime>
 		</globalVariable>
 		<globalVariable>
 			<name>CodeName_File</name>
-			<value>F:\Exception\Config_Files\CodeNames.xml</value>
+			<value>U:\Exception\Config_Files\CodeNames.xml</value>
 			<deploymentSettable>true</deploymentSettable>
 			<serviceSettable>false</serviceSettable>
 			<type>String</type>
-			<modTime>1769516338334</modTime>
+			<modTime>1769685909724</modTime>
 		</globalVariable>
 		<globalVariable>
 			<name>Config_File_Dir</name>
-			<value>F:\Exception\Config_Files\*.*</value>
+			<value>U:\Exception\Config_Files\*.*</value>
 			<deploymentSettable>true</deploymentSettable>
 			<serviceSettable>false</serviceSettable>
 			<type>String</type>
-			<modTime>1769516338349</modTime>
+			<modTime>1769685909752</modTime>
 		</globalVariable>
 		<globalVariable>
 			<name>KEDBRef_File</name>
-			<value>F:\Exception\Config_Files\KEBDRef.xml</value>
+			<value>U:\Exception\Config_Files\KEBDRef.xml</value>
 			<deploymentSettable>true</deploymentSettable>
 			<serviceSettable>false</serviceSettable>
 			<type>String</type>
-			<modTime>1769516338365</modTime>
+			<modTime>1769685909778</modTime>
 		</globalVariable>
 		<globalVariable>
 			<name>Personnel_File</name>
-			<value>F:\Exception\Config_Files\Personnels.xml</value>
+			<value>U:\Exception\Config_Files\Personnels.xml</value>
 			<deploymentSettable>true</deploymentSettable>
 			<serviceSettable>false</serviceSettable>
 			<type>String</type>
-			<modTime>1769516338381</modTime>
+			<modTime>1769685909805</modTime>
 		</globalVariable>
 	</globalVariables>
 </repository>

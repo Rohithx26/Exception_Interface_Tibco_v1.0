@@ -3,11 +3,11 @@
 	<globalVariables>
 		<globalVariable>
 			<name>CC</name>
-			<value></value>
+			<value>GPalaniyappan@coopervision.com</value>
 			<deploymentSettable>true</deploymentSettable>
 			<serviceSettable>false</serviceSettable>
 			<type>String</type>
-			<modTime>1769321200192</modTime>
+			<modTime>1774435764748</modTime>
 		</globalVariable>
 		<globalVariable>
 			<name>Error_Subject</name>
@@ -43,11 +43,19 @@
 		</globalVariable>
 		<globalVariable>
 			<name>To</name>
-			<value>mibrahim@coopervision.com, gpalaniyappan@coopervision.com, kvelkumar@coopervision.com</value>
+			<value>kvelkumar@coopervision.com</value>
 			<deploymentSettable>true</deploymentSettable>
 			<serviceSettable>false</serviceSettable>
 			<type>String</type>
-			<modTime>1769321200192</modTime>
+			<modTime>1769685860252</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>Weekly_To</name>
+			<value>kvelkumar@coopervision.com</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1771304524012</modTime>
 		</globalVariable>
 	</globalVariables>
 </repository>

@@ -3,11 +3,11 @@
 	<globalVariables>
 		<globalVariable>
 			<name>Archive</name>
-			<value>F:\Exception\Archive\</value>
+			<value>C:\Users\tibctestsvc\Documents\Interface\Archive\</value>
 			<deploymentSettable>true</deploymentSettable>
 			<serviceSettable>false</serviceSettable>
 			<type>String</type>
-			<modTime>1769516338397</modTime>
+			<modTime>1770381331808</modTime>
 		</globalVariable>
 		<globalVariable>
 			<name>CSV_Wildcard</name>
@@ -27,11 +27,11 @@
 		</globalVariable>
 		<globalVariable>
 			<name>Working</name>
-			<value>F:\Exception\Working\</value>
+			<value>C:\Users\tibctestsvc\Documents\Interface\Working\</value>
 			<deploymentSettable>true</deploymentSettable>
 			<serviceSettable>false</serviceSettable>
 			<type>String</type>
-			<modTime>1769516338415</modTime>
+			<modTime>1770381471902</modTime>
 		</globalVariable>
 	</globalVariables>
 </repository>

@@ -1,0 +1,21 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<repository xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xmlns = "http://www.tibco.com/xmlns/repo/types/2002">
+	<globalVariables>
+		<globalVariable>
+			<name>Directory</name>
+			<value>C:\Users\tibctestsvc\Documents\Interface\Working\</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1769321200192</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>Filename</name>
+			<value>Interface_Log.txt</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1769321200192</modTime>
+		</globalVariable>
+	</globalVariables>
+</repository>

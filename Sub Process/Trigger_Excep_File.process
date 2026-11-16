@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns6="http://xmlns.tibco.com/encodings/mime" xmlns:ns5="http://xmlns.tibco.com/body" xmlns:pfx="http://www.tibco.com/schemas/Exception_Interface_Tibco/Shared Resources/Data/Schema.xsd" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns="http://www.tibco.com/pe/DeployedVarsType" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:ns2="http://www.tibco.com/namespaces/tnt/plugins/file" xmlns:ns1="http://schemas.tibco.com/bw/plugins/file/5.0/fileExceptions" xmlns:ns4="www.tibco.com/plugin/Sleep" xmlns:ns3="http://www.tibco.com/namespaces/tnt/plugins/mail">
+    <pd:name>Sub Process/Trigger_Excep_File.process</pd:name>
+    <pd:startName>Timer</pd:startName>
+    <pd:startX>0</pd:startX>
+    <pd:startY>0</pd:startY>
+    <pd:returnBindings/>
+    <pd:starter name="Timer">
+        <pd:type>com.tibco.plugin.timer.TimerEventSource</pd:type>
+        <pd:resourceType>ae.activities.timer</pd:resourceType>
+        <pd:x>74</pd:x>
+        <pd:y>144</pd:y>
+        <config>
+            <StartTime>%%Batch/StartTime%%</StartTime>
+            <Frequency>false</Frequency>
+            <TimeInterval>%%Batch/TimeInterval%%</TimeInterval>
+            <FrequencyIndex>Millisecond</FrequencyIndex>
+        </config>
+        <pd:inputBindings/>
+    </pd:starter>
+    <pd:endName>End</pd:endName>
+    <pd:endX>838</pd:endX>
+    <pd:endY>149</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1753713284615</pd:targetNamespace>
+    <pd:activity name="Catch">
+        <pd:type>com.tibco.pe.core.CatchActivity</pd:type>
+        <pd:resourceType>ae.activities.catch</pd:resourceType>
+        <pd:x>585</pd:x>
+        <pd:y>441</pd:y>
+        <pd:handler>true</pd:handler>
+        <config>
+            <catchAll>true</catchAll>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:activity name="Error Mail">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>697</pd:x>
+        <pd:y>441</pd:y>
+        <config>
+            <processName>/Sub Process/Error_Handling.process</processName>
+        </config>
+        <pd:inputBindings>
+            <xsl:choose>
+                <xsl:when test="$_error_List-Prev-Week-Files/ns1:FileNotFoundException">
+                    <pfx:Error>
+                        <pfx:ErrorCode>
+                            <xsl:value-of select="$_error_List-Prev-Week-Files/ns1:FileNotFoundException/msgCode"/>
+                        </pfx:ErrorCode>
+                        <pfx:ErrorMessage>
+                            <xsl:value-of select="$_error_List-Prev-Week-Files/ns1:FileNotFoundException/msg"/>
+                        </pfx:ErrorMessage>
+                        <pfx:ProcessName>
+                            <xsl:value-of select="concat('FILENAME: ',$_error_List-Prev-Week-Files/ns1:FileNotFoundException/fileName)"/>
+                        </pfx:ProcessName>
+                    </pfx:Error>
+                </xsl:when>
+                <xsl:when test="$_error_List-Current-Week-File/ns1:FileNotFoundException">
+                    <pfx:Error>
+                        <pfx:ErrorCode>
+                            <xsl:value-of select="$_error_List-Current-Week-File/ns1:FileNotFoundException/msgCode"/>
+                        </pfx:ErrorCode>
+                        <pfx:ErrorMessage>
+                            <xsl:value-of select="$_error_List-Current-Week-File/ns1:FileNotFoundException/msg"/>
+                        </pfx:ErrorMessage>
+                        <pfx:ProcessName>
+                            <xsl:value-of select="concat('FILENAME: ',$_error_List-Current-Week-File/ns1:FileNotFoundException/fileName)"/>
+                        </pfx:ProcessName>
+                    </pfx:Error>
+                </xsl:when>
+                <xsl:when test="$_error_Send-Mail/ActivityErrors/*">
+                    <pfx:Error>
+                        <pfx:ErrorCode>
+                            <xsl:value-of select="'MSGERR-001'"/>
+                        </pfx:ErrorCode>
+                        <pfx:ErrorMessage>
+                            <xsl:value-of select="'Error in sending Mail'"/>
+                        </pfx:ErrorMessage>
+                        <pfx:ProcessName>
+                            <xsl:value-of select="'Send Mail'"/>
+                        </pfx:ProcessName>
+                    </pfx:Error>
+                </xsl:when>
+                <xsl:otherwise>
+                    <pfx:Error>
+                        <pfx:ErrorCode>
+                            <xsl:value-of select="'WKLYCONV-002'"/>
+                        </pfx:ErrorCode>
+                        <pfx:ErrorMessage>
+                            <xsl:value-of select="'Error in Weekly Conversion, Couldnt convert the weekly file'"/>
+                        </pfx:ErrorMessage>
+                        <pfx:ProcessName>
+                            <xsl:value-of select="'Weekly_Conversion'"/>
+                        </pfx:ProcessName>
+                    </pfx:Error>
+                </xsl:otherwise>
+            </xsl:choose>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="List Current Week File">
+        <pd:type>com.tibco.plugin.file.ListFilesActivity</pd:type>
+        <pd:resourceType>ae.activities.ListFilesActivity</pd:resourceType>
+        <pd:x>77</pd:x>
+        <pd:y>296</pd:y>
+        <config>
+            <mode>files-and-directories</mode>
+        </config>
+        <pd:inputBindings>
+            <ns2:ListFilesActivityConfig>
+                <fileName>
+                    <xsl:value-of select="concat(&#xA;  $_globalVariables/ns:GlobalVariables/Directory/Working,$_globalVariables/ns:GlobalVariables/Directory/Filename,&#xA;  tib:format-dateTime(&#xA;    'ddMMyyyy',&#xA;    tib:add-to-dateTime(&#xA;      current-dateTime(),&#xA;      0, 0,&#xA;      - (((number(tib:format-dateTime('u', current-dateTime())) + 3) mod 7)),&#xA;      0, 0, 0&#xA;    )&#xA;  ),&#xA;$_globalVariables/ns:GlobalVariables/Directory/CSV_Wildcard&#xA;)"/>
+                </fileName>
+            </ns2:ListFilesActivityConfig>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Send Daily Mail">
+        <pd:type>com.tibco.plugin.mail.MailPubActivity</pd:type>
+        <pd:resourceType>ae.activities.MailActivityResource</pd:resourceType>
+        <pd:x>276</pd:x>
+        <pd:y>365</pd:y>
+        <config>
+            <newMimeSupport>true</newMimeSupport>
+            <inputOutputVersion>5.2.0</inputOutputVersion>
+            <host>%%Mail/Host%%</host>
+            <InputHeaders>
+                <xsd:element name="root">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="Content-Type" type="xsd:string" minOccurs="0"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </InputHeaders>
+            <authScheme>Basic Authentication</authScheme>
+        </config>
+        <pd:inputBindings>
+            <ns3:mailActivityInput>
+                <from>
+                    <xsl:value-of select="$_globalVariables/ns:GlobalVariables/Mail/From"/>
+                </from>
+                <to>
+                    <xsl:value-of select="$_globalVariables/ns:GlobalVariables/Mail/To"/>
+                </to>
+                <subject>
+                    <xsl:value-of select="concat('Daily Exception Report: ', tib:substring-before-last($List-Current-Week-File/ns2:ListFilesActivityOutput/files/fileInfo[1]/fileName, '.csv'))"/>
+                </subject>
+                <ns5:bodyElement>
+                    <bodyText>
+                        <xsl:value-of select="concat(&#xA;    &quot;&lt;!DOCTYPE html>&quot;,&#xA;    &quot;&lt;html lang='en'>&quot;,&#xA;    &quot;&lt;head>&quot;,&#xA;    &quot;&lt;style>&quot;,&#xA;    &quot;body { font-family: Arial, sans-serif; color: #333; background-color: #f9f9f9; }&quot;,&#xA;    &quot;.email-container { background: white; }&quot;,&#xA;    &quot;.text { font-family: 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; color: brown; }&quot;,&#xA;    &quot;.footer { font-size: 14px; color: #6c757d; }&quot;,&#xA;    &quot;&lt;/style>&quot;,&#xA;    &quot;&lt;/head>&quot;,&#xA;    &quot;&lt;body>&quot;,&#xA;    &quot;&lt;div class='email-container'>&quot;,&#xA;    &quot;&lt;h4 class='text'> Hi all, &lt;br/>&lt;br/>Find the attached Daily Exception List File. &lt;br/>&lt;br/> &lt;/h4>&quot;,&#xA;    &quot;&lt;div class='footer'> *TIBCO Support - Automated alert mail* &lt;/div>&quot;,&#xA;    &quot;&lt;/div>&quot;,&#xA;    &quot;&lt;/body>&quot;,&#xA;    &quot;&lt;/html>&quot;&#xA;)"/>
+                    </bodyText>
+                </ns5:bodyElement>
+                <Headers>
+                    <Content-Type>
+                        <xsl:value-of select="'text/html'"/>
+                    </Content-Type>
+                </Headers>
+                <ns6:mimeEnvelopeElement>
+                    <mimePart>
+                        <mimeHeaders>
+                            <content-disposition>
+                                <xsl:value-of select="concat(&quot;attachment;filename=&quot;,$List-Current-Week-File/ns2:ListFilesActivityOutput/files/fileInfo[1]/fileName)"/>
+                            </content-disposition>
+                            <content-type>
+                                <xsl:value-of select="&quot;text/csv&quot;"/>
+                            </content-type>
+                        </mimeHeaders>
+                        <fileName>
+                            <xsl:value-of select="$List-Current-Week-File/ns2:ListFilesActivityOutput/files/fileInfo[1]/fullName"/>
+                        </fileName>
+                    </mimePart>
+                </ns6:mimeEnvelopeElement>
+            </ns3:mailActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:group name="Group">
+        <pd:type>com.tibco.pe.core.CriticalSectionGroup</pd:type>
+        <pd:resourceType>ae.process.group</pd:resourceType>
+        <pd:x>202</pd:x>
+        <pd:y>10</pd:y>
+        <pd:width>563</pd:width>
+        <pd:height>248</pd:height>
+        <pd:collapsedWidth>57</pd:collapsedWidth>
+        <pd:collapsedHeight>70</pd:collapsedHeight>
+        <pd:groupVariables/>
+        <pd:joinToggle>inherit</pd:joinToggle>
+        <config>
+            <pd:groupType>criticalSection</pd:groupType>
+            <pd:serializable>false</pd:serializable>
+            <pd:scope>single</pd:scope>
+        </config>
+        <pd:inputBindings/>
+        <pd:expanded>true</pd:expanded>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>List Prev Week Files</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>Move File</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>Null</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>One Bend</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>List Prev Week Files</pd:from>
+            <pd:to>Send Mail</pd:to>
+            <pd:xpathDescription>FileFound</pd:xpathDescription>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>xpath</pd:conditionType>
+            <pd:xpath>count($List-Prev-Week-Files/ns2:ListFilesActivityOutput/files/fileInfo/fileName)&gt;0</pd:xpath>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>Sleep</pd:from>
+            <pd:to>Move File</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>List Prev Week Files</pd:from>
+            <pd:to>Null</pd:to>
+            <pd:xpathDescription>NoFiles</pd:xpathDescription>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>otherwise</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>Send Mail</pd:from>
+            <pd:to>Sleep</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:activity name="List Prev Week Files">
+            <pd:type>com.tibco.plugin.file.ListFilesActivity</pd:type>
+            <pd:resourceType>ae.activities.ListFilesActivity</pd:resourceType>
+            <pd:x>271</pd:x>
+            <pd:y>82</pd:y>
+            <config>
+                <mode>files-and-directories</mode>
+            </config>
+            <pd:inputBindings>
+                <ns2:ListFilesActivityConfig>
+                    <fileName>
+                        <xsl:value-of select="concat(&#xA;  $_globalVariables/ns:GlobalVariables/Directory/Working,$_globalVariables/ns:GlobalVariables/Directory/Filename,&#xA;  tib:format-dateTime(&#xA;    'ddMMyyyy',&#xA;    tib:add-to-dateTime(&#xA;      current-dateTime(),&#xA;      0, 0,&#xA;      - (((number(tib:format-dateTime('u', current-dateTime())) + 3) mod 7)+7),&#xA;      0, 0, 0&#xA;    )&#xA;  ),&#xA;$_globalVariables/ns:GlobalVariables/Directory/CSV_Wildcard&#xA;)"/>
+                    </fileName>
+                </ns2:ListFilesActivityConfig>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="Send Mail">
+            <pd:type>com.tibco.plugin.mail.MailPubActivity</pd:type>
+            <pd:resourceType>ae.activities.MailActivityResource</pd:resourceType>
+            <pd:x>409</pd:x>
+            <pd:y>75</pd:y>
+            <config>
+                <newMimeSupport>true</newMimeSupport>
+                <inputOutputVersion>5.2.0</inputOutputVersion>
+                <host>%%Mail/Host%%</host>
+                <authScheme>Basic Authentication</authScheme>
+                <InputHeaders>
+                    <xsd:element name="root">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="Content-Type" type="xsd:string" minOccurs="0"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                </InputHeaders>
+            </config>
+            <pd:inputBindings>
+                <ns3:mailActivityInput>
+                    <from>
+                        <xsl:value-of select="$_globalVariables/ns:GlobalVariables/Mail/From"/>
+                    </from>
+                    <to>
+                        <xsl:value-of select="$_globalVariables/ns:GlobalVariables/Mail/Weekly_To"/>
+                    </to>
+                    <cc>
+                        <xsl:value-of select="$_globalVariables/ns:GlobalVariables/Mail/CC"/>
+                    </cc>
+                    <subject>
+                        <xsl:value-of select="concat($_globalVariables/ns:GlobalVariables/Mail/Subject,' ',tib:substring-before-last($List-Prev-Week-Files/ns2:ListFilesActivityOutput/files/fileInfo[1]/fileName, '.csv'))"/>
+                    </subject>
+                    <ns5:bodyElement>
+                        <bodyText>
+                            <xsl:value-of select="concat(&#xA;    &quot;&lt;!DOCTYPE html>&quot;,&#xA;    &quot;&lt;html lang='en'>&quot;,&#xA;    &quot;&lt;head>&quot;,&#xA;    &quot;&lt;style>&quot;,&#xA;    &quot;body { font-family: Arial, sans-serif; color: #333; background-color: #f9f9f9; }&quot;,&#xA;    &quot;.email-container { background: white; }&quot;,&#xA;    &quot;.text { font-family: 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; color: brown; }&quot;,&#xA;    &quot;.footer { font-size: 14px; color: #6c757d; }&quot;,&#xA;    &quot;&lt;/style>&quot;,&#xA;    &quot;&lt;/head>&quot;,&#xA;    &quot;&lt;body>&quot;,&#xA;    &quot;&lt;div class='email-container'>&quot;,&#xA;    &quot;&lt;h4 class='text'> Hi all, &lt;br/>&lt;br/>Find the attached ExceptionList File for this week. &lt;br/>&lt;br/> &lt;/h4>&quot;,&#xA;    &quot;&lt;div class='footer'> *TIBCO Support - Automated alert mail* &lt;/div>&quot;,&#xA;    &quot;&lt;/div>&quot;,&#xA;    &quot;&lt;/body>&quot;,&#xA;    &quot;&lt;/html>&quot;&#xA;)"/>
+                        </bodyText>
+                    </ns5:bodyElement>
+                    <Headers>
+                        <Content-Type>
+                            <xsl:value-of select="'text/html'"/>
+                        </Content-Type>
+                    </Headers>
+                    <ns6:mimeEnvelopeElement>
+                        <mimePart>
+                            <mimeHeaders>
+                                <content-disposition>
+                                    <xsl:value-of select="concat(&quot;attachment;filename=&quot;,$List-Prev-Week-Files/ns2:ListFilesActivityOutput/files/fileInfo[1]/fileName)"/>
+                                </content-disposition>
+                                <content-type>
+                                    <xsl:value-of select="&quot;text/csv&quot;"/>
+                                </content-type>
+                            </mimeHeaders>
+                            <fileName>
+                                <xsl:value-of select="$List-Prev-Week-Files/ns2:ListFilesActivityOutput/files/fileInfo[1]/fullName"/>
+                            </fileName>
+                        </mimePart>
+                    </ns6:mimeEnvelopeElement>
+                </ns3:mailActivityInput>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="Sleep">
+            <pd:type>com.tibco.plugin.timer.SleepActivity</pd:type>
+            <pd:resourceType>ae.activities.sleep</pd:resourceType>
+            <pd:x>529</pd:x>
+            <pd:y>76</pd:y>
+            <config/>
+            <pd:inputBindings>
+                <ns4:SleepInputSchema>
+                    <IntervalInMillisec>
+                        <xsl:value-of select="$_globalVariables/ns:GlobalVariables/Timer/Timeout"/>
+                    </IntervalInMillisec>
+                </ns4:SleepInputSchema>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="Move File">
+            <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+            <pd:resourceType>ae.process.subprocess</pd:resourceType>
+            <pd:x>670</pd:x>
+            <pd:y>77</pd:y>
+            <config>
+                <processName>/Sub Process/Move Previous Week File.process</processName>
+            </config>
+            <pd:inputBindings/>
+        </pd:activity>
+        <pd:activity name="Null">
+            <pd:type>com.tibco.plugin.timer.NullActivity</pd:type>
+            <pd:resourceType>ae.activities.null</pd:resourceType>
+            <pd:x>398</pd:x>
+            <pd:y>182</pd:y>
+            <config/>
+            <pd:inputBindings/>
+        </pd:activity>
+    </pd:group>
+    <pd:transition>
+        <pd:from>List Current Week File</pd:from>
+        <pd:to>Send Daily Mail</pd:to>
+        <pd:xpathDescription>FileFound</pd:xpathDescription>
+        <pd:lineType>One Bend</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>count($List-Current-Week-File/ns2:ListFilesActivityOutput/files/fileInfo/fileName)&gt;0</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Catch</pd:from>
+        <pd:to>Error Mail</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Error Mail</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>One Bend</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Timer</pd:from>
+        <pd:to>List Current Week File</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>otherwise</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Send Daily Mail</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>One Bend</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Timer</pd:from>
+        <pd:to>Group</pd:to>
+        <pd:xpathDescription>Wednesday</pd:xpathDescription>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>tib:format-dateTime('u', current-dateTime()) = $_globalVariables/ns:GlobalVariables/Batch/RunDay</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Group</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>List Current Week File</pd:from>
+        <pd:to>End</pd:to>
+        <pd:xpathDescription>No Files</pd:xpathDescription>
+        <pd:lineType>One Bend</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>otherwise</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

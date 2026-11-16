@@ -3,11 +3,11 @@
 	<globalVariables>
 		<globalVariable>
 			<name>Base_URL</name>
-			<value>http:localhost:8035</value>
+			<value>http://TIBCAPPLIT15:8035</value>
 			<deploymentSettable>true</deploymentSettable>
 			<serviceSettable>false</serviceSettable>
 			<type>String</type>
-			<modTime>1769519084702</modTime>
+			<modTime>1770291115166</modTime>
 		</globalVariable>
 	</globalVariables>
 </repository>

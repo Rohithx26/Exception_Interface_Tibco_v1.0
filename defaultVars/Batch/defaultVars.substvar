@@ -3,11 +3,27 @@
 	<globalVariables>
 		<globalVariable>
 			<name>RunDay</name>
-			<value>Thu</value>
+			<value>4</value>
 			<deploymentSettable>true</deploymentSettable>
 			<serviceSettable>false</serviceSettable>
 			<type>String</type>
-			<modTime>1769681242191</modTime>
+			<modTime>1774792030384</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>StartTime</name>
+			<value>2026 JAN 01 01:00:00 EST</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1774791396438</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>TimeInterval</name>
+			<value>86400000</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1770299559792</modTime>
 		</globalVariable>
 	</globalVariables>
 </repository>

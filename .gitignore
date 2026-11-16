@@ -1,0 +1,5 @@
+# Built enterprise archive (rebuild from TIBCO Designer)
+Deployment/*.ear
+
+# Designer / engine runtime output
+*.log
