@@ -14,6 +14,7 @@
             <xsd:element name="User_Input">
                 <xsd:complexType>
                     <xsd:sequence>
+                        <xsd:element name="exceptionType" type="xsd:string"/>
                         <xsd:element name="application" type="xsd:string"/>
                         <xsd:element name="codeName" type="xsd:string"/>
                         <xsd:element name="date" type="xsd:string"/>
@@ -21,7 +22,9 @@
                         <xsd:element name="description" type="xsd:string"/>
                         <xsd:element name="closeNotes" type="xsd:string"/>
                         <xsd:element name="assigned" type="xsd:string"/>
-                        <xsd:element name="count" type="xsd:string"/>
+                        <xsd:element name="exceptionsReceived" type="xsd:string"/>
+                        <xsd:element name="exceptionsFailed" type="xsd:string"/>
+                        <xsd:element name="exceptionsProcessed" type="xsd:string"/>
                         <xsd:element name="kedbReference" type="xsd:string"/>
                         <xsd:element name="comments" type="xsd:string" minOccurs="0"/>
                     </xsd:sequence>
