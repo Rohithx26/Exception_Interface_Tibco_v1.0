@@ -49,8 +49,6 @@
             <authenticate>false</authenticate>
             <nonRFC822>true</nonRFC822>
             <authScheme>Basic Authentication</authScheme>
-            <username>rohitmyst05@gmail.com</username>
-            <password>%%Google/Password%%</password>
             <InputHeaders>
                 <xsd:element name="root">
                     <xsd:complexType>

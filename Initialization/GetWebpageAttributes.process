@@ -224,6 +224,7 @@
         <pd:activity name="SelectCodeName">
             <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
             <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+            <pd:description>Each code name is URI-escaped (escape-uri) so quotes, backslashes and &lt;/script&gt; cannot break the page's JavaScript; the page decodes them with decodeURIComponent.</pd:description>
             <pd:x>569</pd:x>
             <pd:y>69</pd:y>
             <config>
@@ -231,7 +232,7 @@
                     <xsd:element name="root">
                         <xsd:complexType>
                             <xsd:sequence>
-                                <xsd:element name="JSArrayItems" type="xsd:string"/>
+                                <xsd:element name="Item" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
                             </xsd:sequence>
                         </xsd:complexType>
                     </xsd:element>
@@ -239,78 +240,116 @@
             </config>
             <pd:inputBindings>
                 <root>
-                    <JSArrayItems>
-                        <xsl:value-of select="concat(&#xA;    'const codeNameOptions = [&quot;', &#xA;    tib:concat-sequence-format($Parse-XML/ns2:CodeNameInfo/ns2:CodeName/ns2:Name, '&quot;, &quot;'), &#xA;    '&quot;];'&#xA;)"/>
-                    </JSArrayItems>
+                    <xsl:for-each select="$Parse-XML/ns2:CodeNameInfo/ns2:CodeName/ns2:Name">
+                        <Item>
+                            <xsl:value-of select="escape-uri(string(.), true())"/>
+                        </Item>
+                    </xsl:for-each>
                 </root>
             </pd:inputBindings>
         </pd:activity>
         <pd:activity name="SelectKEDBRef">
             <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
             <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+            <pd:description>Builds the &lt;select&gt; as real XML so tib:render-xml escapes the names (&amp; &lt; &gt; quotes). Adds the "Select KEDB reference" placeholder (value="") first; a config entry with the same text is skipped.</pd:description>
             <pd:x>578</pd:x>
             <pd:y>347</pd:y>
             <config>
                 <element>
-                    <xsd:element name="KEDB">
-                        <xsd:complexType>
-                            <xsd:sequence>
-                                <xsd:element name="SelectOpen" type="xsd:string"/>
-                                <xsd:element name="SelectItems" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
-                                <xsd:element name="SelectClose" type="xsd:string"/>
-                            </xsd:sequence>
-                        </xsd:complexType>
-                    </xsd:element>
+                    <xsd:element name="select">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="option" minOccurs="0" maxOccurs="unbounded">
+                                            <xsd:complexType>
+                                                <xsd:simpleContent>
+                                                    <xsd:extension base="xsd:string">
+                                                        <xsd:attribute name="value" type="xsd:string"/>
+                                                    </xsd:extension>
+                                                </xsd:simpleContent>
+                                            </xsd:complexType>
+                                        </xsd:element>
+                                    </xsd:sequence>
+                                    <xsd:attribute name="id" type="xsd:string"/>
+                                    <xsd:attribute name="name" type="xsd:string"/>
+                                </xsd:complexType>
+                            </xsd:element>
                 </element>
             </config>
             <pd:inputBindings>
-                <KEDB>
-                    <SelectOpen>
-                        <xsl:value-of select="'&lt;select id=&quot;kedbReference&quot; name=&quot;kedbReference&quot;>'"/>
-                    </SelectOpen>
-                    <xsl:for-each select="$Parse-XML-1-2/*[local-name()=&quot;KEBDReferenceInfo&quot;]/*[local-name()=&quot;KEBDReference&quot;]">
-                        <SelectItems>
-                            <xsl:value-of select="concat('&lt;option value=&quot;',*[local-name()=&quot;Name&quot;], '&quot;>',*[local-name()=&quot;Name&quot;], '&lt;/option>')"/>
-                        </SelectItems>
+                <select>
+                    <xsl:attribute name="id">
+                        <xsl:value-of select="'kedbReference'"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="name">
+                        <xsl:value-of select="'kedbReference'"/>
+                    </xsl:attribute>
+                    <option>
+                        <xsl:attribute name="value">
+                            <xsl:value-of select="''"/>
+                        </xsl:attribute>
+                        <xsl:value-of select="'Select KEDB reference'"/>
+                    </option>
+                    <xsl:for-each select="$Parse-XML-1-2/*[local-name()='KEBDReferenceInfo' or local-name()='KEDBReferenceInfo']/*[local-name()='KEBDReference' or local-name()='KEDBReference'][normalize-space(*[local-name()='Name']) != '' and normalize-space(*[local-name()='Name']) != 'Select KEDB reference']">
+                        <option>
+                            <xsl:attribute name="value">
+                                <xsl:value-of select="normalize-space(*[local-name()='Name'])"/>
+                            </xsl:attribute>
+                            <xsl:value-of select="normalize-space(*[local-name()='Name'])"/>
+                        </option>
                     </xsl:for-each>
-                    <SelectClose>
-                        <xsl:value-of select="'&lt;/select>'"/>
-                    </SelectClose>
-                </KEDB>
+                </select>
             </pd:inputBindings>
         </pd:activity>
         <pd:activity name="SelectPersonnelName">
             <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
             <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+            <pd:description>Builds the &lt;select&gt; as real XML so tib:render-xml escapes the names (&amp; &lt; &gt; quotes). Adds the "Select assignee" placeholder (value="") first; a config entry with the same text is skipped.</pd:description>
             <pd:x>579</pd:x>
             <pd:y>245</pd:y>
             <config>
                 <element>
-                    <xsd:element name="Personnels">
-                        <xsd:complexType>
-                            <xsd:sequence>
-                                <xsd:element name="SelectOpen" type="xsd:string"/>
-                                <xsd:element name="SelectItems" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
-                                <xsd:element name="SelectClose" type="xsd:string"/>
-                            </xsd:sequence>
-                        </xsd:complexType>
-                    </xsd:element>
+                    <xsd:element name="select">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="option" minOccurs="0" maxOccurs="unbounded">
+                                            <xsd:complexType>
+                                                <xsd:simpleContent>
+                                                    <xsd:extension base="xsd:string">
+                                                        <xsd:attribute name="value" type="xsd:string"/>
+                                                    </xsd:extension>
+                                                </xsd:simpleContent>
+                                            </xsd:complexType>
+                                        </xsd:element>
+                                    </xsd:sequence>
+                                    <xsd:attribute name="id" type="xsd:string"/>
+                                    <xsd:attribute name="name" type="xsd:string"/>
+                                </xsd:complexType>
+                            </xsd:element>
                 </element>
             </config>
             <pd:inputBindings>
-                <Personnels>
-                    <SelectOpen>
-                        <xsl:value-of select="'&lt;select id=&quot;assigned&quot; name=&quot;assigned&quot;>'"/>
-                    </SelectOpen>
-                    <xsl:for-each select="$Parse-XML-1-1/pfx2:AssignedInfo/pfx2:Assigned">
-                        <SelectItems>
-                            <xsl:value-of select="concat(&quot;&lt;option value='&quot;, normalize-space(pfx2:Name), &quot;'>&quot;, normalize-space(pfx2:Name), &quot;&lt;/option>&quot;)"/>
-                        </SelectItems>
+                <select>
+                    <xsl:attribute name="id">
+                        <xsl:value-of select="'assigned'"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="name">
+                        <xsl:value-of select="'assigned'"/>
+                    </xsl:attribute>
+                    <option>
+                        <xsl:attribute name="value">
+                            <xsl:value-of select="''"/>
+                        </xsl:attribute>
+                        <xsl:value-of select="'Select assignee'"/>
+                    </option>
+                    <xsl:for-each select="$Parse-XML-1-1/pfx2:AssignedInfo/pfx2:Assigned[normalize-space(pfx2:Name) != '' and normalize-space(pfx2:Name) != 'Select assignee']">
+                        <option>
+                            <xsl:attribute name="value">
+                                <xsl:value-of select="normalize-space(pfx2:Name)"/>
+                            </xsl:attribute>
+                            <xsl:value-of select="normalize-space(pfx2:Name)"/>
+                        </option>
                     </xsl:for-each>
-                    <SelectClose>
-                        <xsl:value-of select="'&lt;/select>'"/>
-                    </SelectClose>
-                </Personnels>
+                </select>
             </pd:inputBindings>
         </pd:activity>
         <pd:activity name="SetCodenames">
@@ -324,7 +363,7 @@
             <pd:inputBindings>
                 <CodeNames>
                     <Content>
-                        <xsl:value-of select="$SelectCodeName/root/JSArrayItems"/>
+                        <xsl:value-of select="concat('const codeNameOptions = [&quot;', tib:concat-sequence-format($SelectCodeName/root/Item, '&quot;, &quot;'), '&quot;].map(function (s) { try { return decodeURIComponent(s); } catch (e) { return s; } });')"/>
                     </Content>
                 </CodeNames>
             </pd:inputBindings>
@@ -332,35 +371,53 @@
         <pd:activity name="SelectApplicationNames">
             <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
             <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+            <pd:description>Builds the &lt;select&gt; as real XML so tib:render-xml escapes the names (&amp; &lt; &gt; quotes). Adds the "Select an application" placeholder (value="") first; a config entry with the same text is skipped.</pd:description>
             <pd:x>577</pd:x>
             <pd:y>154</pd:y>
             <config>
                 <element>
-                    <xsd:element name="ApplicatioNames">
-                        <xsd:complexType>
-                            <xsd:sequence>
-                                <xsd:element name="SelectOpen" type="xsd:string"/>
-                                <xsd:element name="SelectItems" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
-                                <xsd:element name="SelectClose" type="xsd:string"/>
-                            </xsd:sequence>
-                        </xsd:complexType>
-                    </xsd:element>
+                    <xsd:element name="select">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="option" minOccurs="0" maxOccurs="unbounded">
+                                            <xsd:complexType>
+                                                <xsd:simpleContent>
+                                                    <xsd:extension base="xsd:string">
+                                                        <xsd:attribute name="value" type="xsd:string"/>
+                                                    </xsd:extension>
+                                                </xsd:simpleContent>
+                                            </xsd:complexType>
+                                        </xsd:element>
+                                    </xsd:sequence>
+                                    <xsd:attribute name="id" type="xsd:string"/>
+                                    <xsd:attribute name="name" type="xsd:string"/>
+                                </xsd:complexType>
+                            </xsd:element>
                 </element>
             </config>
             <pd:inputBindings>
-                <ApplicatioNames>
-                    <SelectOpen>
-                        <xsl:value-of select="'&lt;select id=&quot;application&quot; name=&quot;application&quot;>'"/>
-                    </SelectOpen>
-                    <xsl:for-each select="$Parse-XML-1/pfx:ApplicationInfo/pfx:ApplicationItem">
-                        <SelectItems>
-                            <xsl:value-of select="concat(&quot;&lt;option value='&quot;, normalize-space(pfx:Name), &quot;'>&quot;, normalize-space(pfx:Name), &quot;&lt;/option>&quot;)"/>
-                        </SelectItems>
+                <select>
+                    <xsl:attribute name="id">
+                        <xsl:value-of select="'application'"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="name">
+                        <xsl:value-of select="'application'"/>
+                    </xsl:attribute>
+                    <option>
+                        <xsl:attribute name="value">
+                            <xsl:value-of select="''"/>
+                        </xsl:attribute>
+                        <xsl:value-of select="'Select an application'"/>
+                    </option>
+                    <xsl:for-each select="$Parse-XML-1/pfx:ApplicationInfo/pfx:ApplicationItem[normalize-space(pfx:Name) != '' and normalize-space(pfx:Name) != 'Select an application']">
+                        <option>
+                            <xsl:attribute name="value">
+                                <xsl:value-of select="normalize-space(pfx:Name)"/>
+                            </xsl:attribute>
+                            <xsl:value-of select="normalize-space(pfx:Name)"/>
+                        </option>
                     </xsl:for-each>
-                    <SelectClose>
-                        <xsl:value-of select="'&lt;/select>'"/>
-                    </SelectClose>
-                </ApplicatioNames>
+                </select>
             </pd:inputBindings>
         </pd:activity>
         <pd:activity name="Parse-XML-1">
@@ -391,7 +448,7 @@
             <pd:inputBindings>
                 <ApplicationNames>
                     <content>
-                        <xsl:value-of select="concat(&#xA;$SelectApplicationNames/ApplicatioNames/SelectOpen,&quot;&#xA;&quot;,&#xA;tib:concat-sequence-format($SelectApplicationNames/ApplicatioNames/SelectItems, &quot;&quot;),&quot;&#xA;&quot;,&#xA;$SelectApplicationNames/ApplicatioNames/SelectClose&#xA;)"/>
+                        <xsl:value-of select="tib:render-xml($SelectApplicationNames/select, false())"/>
                     </content>
                 </ApplicationNames>
             </pd:inputBindings>
@@ -407,7 +464,7 @@
             <pd:inputBindings>
                 <Personnels>
                     <Content>
-                        <xsl:value-of select="concat(&#xA;$SelectPersonnelName/Personnels/SelectOpen,&quot;&#xA;&quot;,&#xA;tib:concat-sequence-format($SelectPersonnelName/Personnels/SelectItems, &quot;&quot;),&quot;&#xA;&quot;,&#xA;$SelectPersonnelName/Personnels/SelectClose&#xA;)"/>
+                        <xsl:value-of select="tib:render-xml($SelectPersonnelName/select, false())"/>
                     </Content>
                 </Personnels>
             </pd:inputBindings>
@@ -423,7 +480,7 @@
             <pd:inputBindings>
                 <KEDBReferrence>
                     <Content>
-                        <xsl:value-of select="concat(&#xA;$SelectKEDBRef/KEDB/SelectOpen,&quot;&#xA;&quot;,&#xA;tib:concat-sequence-format($SelectKEDBRef/KEDB/SelectItems, &quot;&quot;),&quot;&#xA;&quot;,&#xA;$SelectKEDBRef/KEDB/SelectClose&#xA;)"/>
+                        <xsl:value-of select="tib:render-xml($SelectKEDBRef/select, false())"/>
                     </Content>
                 </KEDBReferrence>
             </pd:inputBindings>
