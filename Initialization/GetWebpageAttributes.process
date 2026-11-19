@@ -224,28 +224,48 @@
         <pd:activity name="SelectCodeName">
             <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
             <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
-            <pd:description>Each code name is URI-escaped (escape-uri) so quotes, backslashes and &lt;/script&gt; cannot break the page's JavaScript; the page decodes them with decodeURIComponent.</pd:description>
+            <pd:description>Builds a hidden &lt;datalist&gt; of code names as real XML, so tib:render-xml escapes them; the page's script reads the list. The first, empty option keeps the element from ever being empty.</pd:description>
             <pd:x>569</pd:x>
             <pd:y>69</pd:y>
             <config>
                 <element>
-                    <xsd:element name="root">
+                    <xsd:element name="datalist">
                         <xsd:complexType>
                             <xsd:sequence>
-                                <xsd:element name="Item" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+                                <xsd:element name="option" minOccurs="0" maxOccurs="unbounded">
+                                    <xsd:complexType>
+                                        <xsd:simpleContent>
+                                            <xsd:extension base="xsd:string">
+                                                <xsd:attribute name="value" type="xsd:string"/>
+                                            </xsd:extension>
+                                        </xsd:simpleContent>
+                                    </xsd:complexType>
+                                </xsd:element>
                             </xsd:sequence>
+                            <xsd:attribute name="id" type="xsd:string"/>
                         </xsd:complexType>
                     </xsd:element>
                 </element>
             </config>
             <pd:inputBindings>
-                <root>
-                    <xsl:for-each select="$Parse-XML/ns2:CodeNameInfo/ns2:CodeName/ns2:Name">
-                        <Item>
-                            <xsl:value-of select="escape-uri(string(.), true())"/>
-                        </Item>
+                <datalist>
+                    <xsl:attribute name="id">
+                        <xsl:value-of select="'codeNameData'"/>
+                    </xsl:attribute>
+                    <option>
+                        <xsl:attribute name="value">
+                            <xsl:value-of select="''"/>
+                        </xsl:attribute>
+                    </option>
+                    <xsl:for-each select="$Parse-XML/ns2:CodeNameInfo/ns2:CodeName/ns2:Name[normalize-space(.) != '']">
+                        <option>
+                            <xsl:attribute name="value">
+                                <xsl:value-of select="normalize-space(.)"/>
+                            </xsl:attribute>
+                            <xsl:value-of select="normalize-space(.)"/>
+                        </option>
                     </xsl:for-each>
-                </root>
+                </datalist>
             </pd:inputBindings>
         </pd:activity>
         <pd:activity name="SelectKEDBRef">
@@ -363,7 +383,7 @@
             <pd:inputBindings>
                 <CodeNames>
                     <Content>
-                        <xsl:value-of select="concat('const codeNameOptions = [&quot;', tib:concat-sequence-format($SelectCodeName/root/Item, '&quot;, &quot;'), '&quot;].map(function (s) { try { return decodeURIComponent(s); } catch (e) { return s; } });')"/>
+                        <xsl:value-of select="tib:render-xml($SelectCodeName/datalist, false())"/>
                     </Content>
                 </CodeNames>
             </pd:inputBindings>
